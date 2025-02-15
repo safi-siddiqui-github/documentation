@@ -1,0 +1,46 @@
+Ubuntu Documentation:
+
+lsb_release -a:
+    -- linux standard base shows detail about distro
+    -- -a is for all info
+
+lsb_release -cs:
+    -- -c is to diaply codename
+    -- -s is to display only value instead of field name
+    -- this is useful in commands eg $(lsb_release -cs)
+
+sudo apt update -y:
+    -- apt is the advanced tool and recommended
+    -- updates all packages
+    -- -y is to answer all prompts
+
+sudo apt upgrade -y:
+    -- upgrades all packages to latest versions
+
+apt list --installed:
+    -- list all installed pacakges
+
+apt list --installed | grep nginx:
+    -- | is a pipe, it take outputs and filters it with term
+
+apt search nginx:
+    -- search for packages online
+
+sudo apt autoremove:
+    -- remove unnecessary packages installed
+
+cat sample.txt:
+    -- prints file
+    -- cat /etc/lsb-release, get ubuntu version
+
+head sample.txt:
+    -- prints file first part
+
+tail sample.txt:
+    -- prints file last part
+
+whoami:
+    -- gives current user
+
+which nginx:
+    -- display working dir of service

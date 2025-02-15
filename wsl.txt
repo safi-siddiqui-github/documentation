@@ -1,0 +1,21 @@
+WSL Documentation:
+
+wsl --list --verbose: 
+    -- list all repo in detail
+    -- wsl -l -v - shorthand
+
+wsl --install ubuntu:
+    -- install ubuntu distro
+
+wsl --update:
+    -- update wsl
+
+wsl --unregister ubuntu:
+    -- unregister or delte a distro
+
+wsl --set-default-version 2:
+    -- it defaults wsl version for new distros as its recommended
+
+wsl --shutdown:
+    -- shut down all running distros
+    -- wsl runs in background so it cleanly stop

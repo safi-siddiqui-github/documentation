@@ -1,0 +1,158 @@
+Docker Documentation:
+
+Installation:
+    sudo apt-get install ca-certificates curl:
+        -- ca-certificates: Ensures your system trusts HTTPS certificates from various authorities, preventing security issues while downloading packages. These are "Certificate Authorities" certificates. They allow your system to verify the authenticity of websites and other network resources, ensuring secure connections. Docker uses them to verify the integrity of its downloads.
+        -- curl: A tool to fetch data from URLs, required to download Docker’s GPG key. This is a command-line tool for transferring data with URLs. We'll use it to download the Docker GPG key in the next step.
+
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc:
+        -- sudo curl: We use sudo because we're writing to a system directory.
+        -- https://download.docker.com/linux/ubuntu/gpg: This is the URL from which we're downloading the Docker GPG key. This key is critical. It allows your system to verify that the Docker packages you download are genuine and haven't been tampered with.
+        -- -o /etc/apt/keyrings/docker.asc: This tells curl to save the downloaded key to the specified file path. .asc is a common extension for ASCII armored GPG keys.
+
+    sudo chmod a+r /etc/apt/keyrings/docker.asc:
+        -- This sets the permissions on the Docker GPG key file. a+r means "add read permission for all users." It's essential that the package manager can read this key. This is important to allow apt to access and verify the key when installing Docker.
+
+
+
+    echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+        $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt-get update
+
+        -- This command adds the Docker repository information to your system's package sources.
+        -- echo..: This part constructs the line that will be added to the Docker repository configuration file.
+                -- deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ...:
+                    -- This is the actual repository entry.
+                    -- deb: 
+                        -- Indicates a Debian package repository.
+                    -- dpkg --print-architecture: 
+                        -- Detects your system’s architecture (e.g., amd64, arm64) to ensure you install the correct Docker version.
+                    -- signed-by=/etc/apt/keyrings/docker.asc: 
+                        -- Specifies the path to the GPG key we downloaded earlier. 
+                        -- This is crucial for verifying the authenticity of the Docker packages 
+                        -- and also Ensures that only packages signed with Docker’s GPG key are trusted.
+                    -- https://download.docker.com/linux/ubuntu: 
+                        -- The URL of the Docker Ubuntu repository.
+                -- $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}"): 
+                    -- This clever bit of shell scripting retrieves / dynamically fetches your Ubuntu 
+                    -- codename (e.g. noble for Ubuntu 24.04, jammy, kinetic, lunar, etc.). 
+                    -- This makes the repository configuration specific to your Ubuntu version. 
+                    -- It reads the /etc/os-release file, which contains information about your distribution.
+                    -- UBUNTU_CODENAME is preferred, but $VERSION_CODENAME is used as a fallback if the former isn't set.
+                -- stable: 
+                    -- Specifies the "stable" channel of Docker packages.
+                    -- This is generally recommended for production environments.
+                    -- There are also test and edge channels, but those are for testing and should be used with caution.
+        -- |: 
+            -- This is a pipe. It takes the output of the echo command and sends it as input to the tee command.
+        -- sudo tee /etc/apt/sources.list.d/docker.list > /dev/null: 
+            -- tee writes the input/info it receives to the specified file /etc/apt/sources.list.d/docker.list.
+            -- sudo is necessary because we're writing to a system directory. 
+            -- /etc/apt/sources.list.d/docker.list is the file where the Docker repository information is stored.
+            -- Putting each repository in its own file under the /etc/apt/sources.list.d/ directory is a best practice for organization.
+            -- > /dev/null:
+                -- This redirects any output from tee (which would be the same repository line) to /dev/null,
+                -- effectively suppressing it and prevents unnecessary terminal clutter.
+                -- We don't need to see the output; we just want the file written.
+        -- sudo apt-get update: 
+            -- Fetches the latest package information, including Docker’s newly added repository.
+            -- As before, this updates your system's package list after adding the new Docker repository.
+            -- This is essential so that your system knows about the Docker packages now available.
+        -- lsb_release -cs: 
+            -- As we saw in the previous step of the Docker installation
+            -- the codename is used to specify the correct Docker repository for your distribution.  
+            -- Using lsb_release -cs (or the equivalent method of reading /etc/os-release) is a 
+            -- robust way to get the codename programmatically, 
+            -- ensuring that your Docker installation is configured correctly for your Ubuntu version.
+            -- This is a best practice, as it avoids hardcoding the codename, which would make your installation script less portable.
+        -- ls /etc/apt/sources.list.d/:
+            -- Run ls /etc/apt/sources.list.d/ to check for duplicate or unnecessary repositories.
+            -- If you switch versions, remove old repos with: sudo rm /etc/apt/sources.list.d/docker.list
+
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin:
+        -- docker-ce: Docker Community Edition (CE), the core engine. This is the standard version for most users.
+        -- docker-ce-cli: The Docker command-line interface. You'll use this to interact with Docker.
+        -- containerd.io: The lightweight container runtime. Docker uses containerD to manage containers.
+        -- docker-buildx-plugin: Advanced multi-platform build support. A CLI plugin that extends the docker build command with features for building images with BuildKit.
+        -- docker-compose-plugin: Official docker-compose plugin for managing multi-container apps. A CLI plugin that provides docker compose functionality.
+
+    sudo usermod -aG docker $USER:
+        -- This is a crucial command for Docker security and usability.
+        -- sudo: This means the command is executed with root privileges. You need sudo because you're modifying user group memberships, which is a system-level change.
+        -- usermod: This is the command-line utility for modifying user account settings.
+        -- -a: This option means "append." It adds the user to the specified group without removing them from any other groups they're already in. This is important!
+        -- -G docker: This specifies the group you're adding the user to, which is the docker group.
+        $USER: This is an environment variable that represents the currently logged-in user. It's a convenient way to refer to your own username.
+
+    su - $USER | newgrp docker | groups:
+        -- su - $USER: This command switches the current user to the user specified by the $USER environment variable (i.e., yourself). The - is important; it tells su to create a login shell. This ensures that the group changes you made with usermod are properly applied. Just running su $USER might not pick up the group change.
+        -- groups: This command displays the groups that a user is a member of.
+
+    sudo systemctl status docker | docker version | sudo docker info | docker compose version :
+        -- Check docker status, version, info including the kernel version, number of CPUs, and memory
+
+    docker compose version:
+        -- check docker compose version
+
+    Secrets management: 
+        -- Never store sensitive information (passwords, API keys) directly in your Docker images or containers. Use Docker secrets or a dedicated secrets management solution.
+
+    Volumes:
+        -- Use volumes for data persistence: Don't store data inside containers. Use Docker volumes to persist data across container restarts and updates.
+
+    Networking:
+        -- Understand Docker networking and create custom networks as needed to isolate your containers and improve security.
+
+Basic Commands:
+
+    docker build –help | docker search ubuntu | docker run hello-world | docker pull ubuntu:
+    System information about command, search docker hub for images and [OK] is official image, run images, download the official ubuntu image to your computer
+
+    docker ps:
+    View only active/running containers.
+    To view all containers — active and inactive, run docker ps with the -a switch.
+    To view the latest container created — run docker ps with the -l switch.
+    docker start 1c08a7a0d0e4 | stop container_name | rm container_name:
+    To run the container using its ID, stop using name, remove using name.
+
+    docker run -it ubuntu | docker run -i -t ubuntu:
+    The combination of the -i and -t switches gives you interactive shell access into the container.
+
+Uninstall Docker:
+
+    Backup:
+
+        docker run --rm -v volume_name:/data -v $(pwd):/backup alpine tar -czvf /backup/volume_backup.tar.gz /data
+            -- save volumes
+
+        docker export container_id -o backup.tar
+            -- export containers
+
+        sudo docker system prune -a:
+            -- Use docker system prune Instead of rm -rf (Safer Way)
+            -- If you only want to remove unused data
+
+    Remove All FIles:
+
+        docker system prune:
+            -- Before uninstalling, you can run docker system prune to remove unused images, containers, networks, and volumes. This can free up disk space and make the uninstallation process faster. It's good practice and d… -a is for images from stop containers.
+
+        sudo apt purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras:
+            -- Completely removes Docker binaries and all installed packages.
+            -- Does NOT remove images, volumes, and containers.
+
+        sudo rm -rf /var/lib/docker:
+            -- This removes the Docker images, containers, volumes, docker’s network configurations and other data. Warning: This is destructive. Make sure you have backups of any important data before running this command.
+
+        sudo rm -rf /var/lib/containerd:
+            -- This removes containerd's data. Warning: This is destructive.
+
+        sudo rm /etc/apt/sources.list.d/docker.list:
+            -- These commands remove the Docker repository configuration
+
+        sudo rm /etc/apt/keyrings/docker.asc:
+            -- These commands remove the Docker GPG key
+
+    The provided commands are good for a clean uninstall. Removing the repository configuration and GPG key is important to prevent issues if you reinstall Docker later.
