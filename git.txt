@@ -1,0 +1,189 @@
+Git Documentation:
+
+Version:
+    git --version
+
+Config:
+    git config --global user.name safi-siddiqui-github
+    git config --global user.email safisiddiqui.work@gmail.com
+    git config --global init.defaultBranch main
+
+Basics:
+    git init
+        -- initialise a git repo
+
+    git branch -M main
+        -- set main branch as "main", common convention
+
+    git remote add origin https://github.com/safi-siddiqui-github/app-one.git
+        -- attach origin to your github repo
+
+    git add .
+        -- add all files to .git
+
+    git commit -m "update"
+        -- commit code changes to .git
+
+    git push -u origin main
+        -- push changes to origin at branch main
+
+    git status
+        -- check repo status
+
+    git log
+        -- check commit history
+
+    git pull
+        -- pull latest updates from remote repo
+
+    git remote -v:
+        -- check repo remote
+
+
+Branching and merging:
+
+    git branch feature
+        -- create a branch named feature
+        -- remember this will create a branch from your current branch
+
+    git branch feature main
+        -- more explicit approcah, feature branch is made from main branch
+
+    git checkout feature
+        -- switch from current branch to feature branch
+
+    git checkout b1d9a1b9b9e84f374584d6a112ef0961834e0538
+        -- our HEAD follows current directory
+        -- moves the HEAD to specific commit in history
+        -- in order to go back to latest run git checkout main
+
+    git checkout -b bug-fix
+        -- -b flag create a branch and switches to it
+
+    git push --set-upstream origin feature
+        -- upstream branch is a remote branch that our local branch tracks
+        -- through this we push a local feature branch to origin remote repo
+        -- then we set upstream branch for local feature branch to track remote feature branch
+
+    git push -u origin feature
+        -- shorthand to upstream
+        -- establishes a tracking relation between local and remote branch
+        -- -u will set the upstream between local and remote branch
+
+    gh pr create --head feature --base main  --title "Merging - F/M" --body "Merging feature update into main"
+        -- create pr
+        -- pull request is a proposal to merge a set of changes from one branch into another
+        -- pr visually display the diff - difference between the content in source branch to target branch 
+
+    gh pr merge feature --merge --delete-branch:
+    gh pr merge 2 --m -d:
+        -- mrege pr using branch or id and delete branch local and remote
+
+    git branch -d feature
+        -- delete feature branch locally
+
+    git push origin --delete feature 
+        -- delete feature branch remotely
+
+
+       
+
+Github CLI:
+
+    Set GPG key:
+        (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+            && sudo mkdir -p -m 755 /etc/apt/keyrings \
+            && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+            && cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+            && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+            && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+            && sudo apt update \
+            && sudo apt install gh -y
+
+    Install & Upgrade:
+        -- sudo apt update && sudo apt install gh
+
+    gh version:
+        -- check cli version
+
+    gh config list
+        -- list config
+
+    gh config set editor "code --wait":
+        -- --wait, when we are making commits, then we dont want vscode instance to exit the CLI bcz it might break commit messages
+        -- when gitub is about to get that commint messages and push it to the branch as well 
+        -- bcz wait waits for the vs code instance for us to close all teh fiels in the vs code instance 
+        -- before it closses down, before it mpves to the next thing 
+
+    gh config get editor:
+        -- get the config property value
+
+    gh repo list:
+        -- list all repos
+
+    gh repo create:
+        -- opens the create terminal
+
+    gh auth refresh -h github.com -s delete_repo:
+        -- in order to delete 
+        -- HTTP 403: Must have admin rights to Repository. (https://api.github.com/repos/safi-siddiqui-github/test-repo)
+        -- This API operation needs the "delete_repo" scope. To request it, run:  gh auth refresh -h github.com -s delete_repo
+        -- it give = ✓ Authentication complete.
+
+    gh repo delete safi-siddiqui-github/test-repo --yes:
+        -- delete repo, without prompt
+
+    gh repo create test-repo --public --source=. --remote=origin:
+        -- before creating, local folder must be a git folder
+        -- create a remote repository from the current directory
+        -- To create a remote repository from an existing local repository, specify the source directory with --source.
+        -- --remote, Specify remote name as origin for the new repository
+
+    gh repo clone safi-siddiqui-github/git-crash:
+        -- clones a repo in my current directoy
+
+    gh repo edit:
+        -- edit repo settings
+
+    gh pr list:
+        -- list open prs in repo
+
+    gh pr list --base main --head feature:
+        -- --base, filter by base branch
+        -- --head, filter by head branch
+
+    gh pr create --head feature --base main  --title "Merging - F/M" --body "Merging feature update into main"
+        -- create pull request form current branch
+        -- --head is the current branch, where pr is created from
+        -- --title, --body is for pull request, use --fill to autofill from git commits
+        -- The base branch for the created PR can be specified using the --base flag
+
+    gh pr view:
+        -- pull request that belongs to current branch
+
+    gh pr view feature:
+        -- shows pull request that belongs to feature branch
+
+    gh pr edit:
+        -- to edit the pr in current branch
+
+    gh pr edit feature
+        -- edit specific pr with branch
+
+    gh pr merge:
+        -- Without an argument, the pull request that belongs to the current branch is selected.
+
+    gh pr merge feature --merge --delete-branch:
+        -- -m, --merge Merges the commits with the base branch
+        -- -d, --delete-branch,Delete the local and remote branch after merge
+        -- it wont merge if there are conflicts
+        -- instaed of fetaure we can use the id of pr
+
+    gh pr checkout bug-fix:
+        -- checks for conflicts relating a pr 
+        -- switches automatically to the branch with pr
+        -- instead of bug-fix, we can use id as gh pr chekout 2
+
+    gh pr status:
+        -- gives details about each pr, showing conflicts and all
+    
