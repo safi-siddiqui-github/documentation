@@ -1,0 +1,119 @@
+Networking:
+
+How does the internet work:
+    -- data transfer through optical fiber cables
+    -- Teir 1 Companies buy these cables    
+    -- Tier 2 companies rent these, the create data packs for others to access internet
+    -- Tier 3 companies rent above, then give internet services
+
+    WAN : Wide Area Network : T2
+    MAN : Metropolitan (City) Area Network : T3
+    LAN : Local (House) Area Network 
+    PAN : Personal (Bluetooth) Area Network 
+
+OSI Model & TCP/IP model:
+
+    OSI (Open System Interconnection):
+        -- It has seven layers: Theory how internet works
+        -- Application
+        -- Presentaion
+        -- Session
+        -- Transport: Protocols like TCP, UDP
+        -- Network
+        -- Data Link
+        -- Physical
+    
+    TCP/IP Model:
+        -- it has 4 layets: Practical how internet works:
+        -- Application [App, Pre, Sess]
+        -- Transport
+        -- Internet [Network]
+        -- Network [Physical, Data Link]
+
+    Protocol (Rules):
+        Application Layer:
+            -- HTTPS [Hypertext Transfer Protocol Secure]
+                -- I want to use HTTPS protocol to access web
+
+            -- SMTP [Simple Mail Transfer Protocol]
+                -- Rule used for sending email
+
+            -- FTP [File Transfer Protocol]
+                -- rule to forending files over web
+
+        Transport Layer:
+            -- TCP [Transmission Control Protocol]
+                -- Video transitting from server to client (uploaded video)
+                -- Without frames drop and lag
+                -- already on the server
+            -- UDP [User Datagram Protocol]
+                -- streaming, maybe some lag (video streaming)
+                -- with frames drop and lag, packet drops
+                
+        Internet Layer:
+            -- IP [Internet Protocol]
+                -- used to bring internet to laptop mobile
+                -- my public IP address (Home Network)
+                -- it was made to give access to devices
+                -- if we want to give access to people, we use IPV4 or IPV6
+
+                Types:
+                    -- IPV4 Address:
+                        -- These are upto 400 Crores +
+
+            -- Subnet:
+                -- Our own served internet is a subnet with IPV4
+
+            -- VPC: [Virtual Private Cloud]
+                -- If we are using aws VPC
+
+            -- VPN: [Virtual Private Network]
+                -- Access web blocked by college 
+
+        Network Layer:
+            -- wifi on, to connect to Internet
+
+What is IP & MAC Address:
+    -- IP is the device address on internet level
+    -- IP changes if connected to other wifi
+    -- When we block a device on a wifi, we block it using MAC address
+    -- MAC identifies our device on LAN, wheras IP identifies on WAN
+
+Routers & Switches:
+    Routers:
+        -- Routing outisde network to our device to access internet
+        -- connect to WAN
+
+    Switch:
+        -- similar to hotspot, to connect devices
+        -- connect to LAN
+
+    ISP:
+        -- isp provides network to home using router
+        -- in order to connext internet using my pc to mobile
+
+Firewalls, Ports & Protocols:
+
+    Routes:
+        -- These are routes 
+
+    Ports:
+        -- If we wan to enable HTTP protocol on our laptop then we have to enable ports like port 80
+        -- For Https we enable port 443 
+        -- For MySQL enable port 3306
+
+    Onpremise:
+        -- infrastructure on individual level like laptop
+        -- Or a server room with storage units, switches
+
+    Cloud:
+        -- Data server , Aws global infrastructure
+        -- server, instance aws, virtual machine azure, compute engine gcp
+
+    SSH: [Secure Shell | Secure Socket Shell]
+        -- Network protocol that allows two computers to connect
+        -- .pem uses OpenSSH tool
+
+
+Client-Server Architecture:
+    -- clint connects to server using ssh 

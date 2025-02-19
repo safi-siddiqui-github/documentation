@@ -1,0 +1,61 @@
+Regions:
+    US East (Ohio)	us-east-2	
+    US East (N. Virginia)	us-east-1	
+    US West (N. California)	us-west-1	
+    US West (Oregon)	us-west-2	
+    Africa (Cape Town)	af-south-1	
+    Asia Pacific (Hong Kong)	ap-east-1	
+    Asia Pacific (Hyderabad)	ap-south-2	
+    Asia Pacific (Jakarta)	ap-southeast-3	
+    Asia Pacific (Mumbai)	ap-south-1	
+    Asia Pacific (Osaka)	ap-northeast-3	
+    Asia Pacific (Seoul)	ap-northeast-2	
+    Asia Pacific (Singapore)	ap-southeast-1	
+    Asia Pacific (Sydney)	ap-southeast-2	
+    Canada (Central)	ca-central-1	
+    Canada West (Calgary)	ca-west-1	
+    Europe (Frankfurt)	eu-central-1	
+    Europe (Ireland)	eu-west-1	
+    Europe (London)	eu-west-2	
+    Europe (Milan)	eu-south-1	
+    Europe (Paris)	eu-west-3	
+    Europe (Spain)	eu-south-2	
+    Europe (Stockholm)	eu-north-1	
+    Europe (Zurich)	eu-central-2	
+    Middle East (UAE)	me-central-1	
+    South America (São Paulo)	sa-east-1	
+
+EC2:
+    Instance Types:
+        -- General purpose: M5 | M5a | M5ad | M5d | M5dn | M5n | M5zn | M6a | M6g | M6gd | M6i | M6id | M6idn | M6in | M7a | M7g | M7gd | M7i | M7i-flex | M8g | Mac1 | Mac2 | Mac2-m1ultra | Mac2-m2 | Mac2-m2pro | T2 | T3 | T3a | T4g
+        -- Compute optimized: C5 | C5a | C5ad | C5d | C5n | C6a | C6g | C6gd | C6gn | C6i | C6id | C6in | C7a | C7g | C7gd | C7gn | C7i | C7i-flex | C8g
+        -- Memory optimized: R5 | R5a | R5ad | R5b | R5d | R5dn | R5n | R6a | R6g | R6gd | R6i | R6idn | R6in | R6id | R7a | R7g | R7gd | R7i | R7iz | R8g | U-3tb1 | U-6tb1 | U-9tb1 | U-12tb1 | U-18tb1 | U-24tb1 | U7i-6tb | U7i-8tb | U7i-12tb | U7in-16tb | U7in-24tb | U7in-32tb | U7inh-32tb | X1 | X1e | X2gd | X2idn | X2iedn | X2iezn | X8g | z1d
+        -- Storage optimized: D2 | D3 | D3en | H1 | I3 | I3en | I4g | I4i | I7ie | I8g | Im4gn | Is4gen
+        -- Accelerated computing: DL1 | DL2q | F1 | F2 | G4ad | G4dn | G5 | G5g | G6 | G6e | Gr6 | Inf1 | Inf2 | P2 | P3 | P3dn | P4d | P4de | P5 | P5e | P5en | Trn1 | Trn1n | Trn2 | Trn2u | VT1
+        -- High-performance computing: Hpc6a | Hpc6id | Hpc7a | Hpc7g
+
+    Pricing:
+        Canada West (Calgary) : 1.68 USD
+        Mexico (Central) : 1.61 USD
+        Africa (Cape Town): 2.26 USD
+        Asia Pacific Hyderabad: 1.02 USD
+        Asia Pacific Mumbai: 1.02 USD
+
+    Security Key:
+        -- .pem uses OpenSSH tool
+
+    Network:
+        VPC:
+            -- Made our own private network
+
+        Subnet:
+            -- Inside we can make more subnets
+
+        Firewall:
+            -- layer between server and outside, who can connect to our ports
+
+            SSH:
+                -- It works on port 22, it must align to my IP
+                -- ssh -i "Web-Server-One-Key.pem" ubuntu@ec2-3-80-115-141.compute-1.amazonaws.com
+
+
