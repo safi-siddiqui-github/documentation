@@ -58,4 +58,18 @@ EC2:
                 -- It works on port 22, it must align to my IP
                 -- ssh -i "Web-Server-One-Key.pem" ubuntu@ec2-3-80-115-141.compute-1.amazonaws.com
 
+    Security Group:
+        -- acts as a firewall
+
+        Inbound:
+            -- by default all inbound traffic is blocked
+            -- HTTP trafic 80 from anywhere     
+            -- my ip source, SSH protocol, port 22 = inbound traffic is allowed on port 22 ssh but only from my ip  
+            -- 0.0.0.0/0 source, HTTP protocol, port 80 = inbound traffic is allowed on port 80 http and any one can access  
+            -- 0.0.0.0/0 source, HTTPS protocol, port 334 = inbound traffic is allowed on port 80 http and any one can access  
+
+        Outbound:
+            -- by default all allowed
+
+    
 

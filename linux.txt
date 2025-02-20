@@ -1,0 +1,375 @@
+Linux Commands:
+Operating System:
+    -- OS works with CPU
+    
+CLient OS vs Server OS:
+    -- client, an OS made for individual, private user
+        -- EG: Win 11, Mac OS
+
+    -- Server OS works for mutliple users
+        -- EG: RHEL, Win Server 2022 
+
+Linux OS:
+    -- windows is GUI based
+    -- Mac is made upon UNIX Enterprise (shell based)
+    -- Linus while working on UNIX created Linux
+    -- aws due to its scalable nature, names elastic
+
+Linux Working:
+    -- linux core is its kernel, through shell
+    -- kernel is written in C, that talks to hardware
+
+    Shell:
+        -- command is written on shell, its tranlation is forwarded to kernel, and kernel talks to hardware
+        -- shell command, list is shell scripting,  
+        -- sh standard, bash borne again (p), csh corn , zsh, fish are all types
+        -- / is known as root directory
+
+    Sudo:
+        -- Its a group that has super user permission
+
+    systemctl:
+        -- tool that controls installed services
+
+Pacakge Manager:
+
+    apt:
+        -- application package manager that ubuntu uses
+        -- RHEL uses yum, dnf
+
+    apt update:
+        -- fetches packages
+
+    apt upgrade:
+        -- downloads packages
+
+VIM:
+
+    vim file_name:
+        -- open / create a file
+
+    i:
+        insert mode
+
+    esc:
+        -- escape to come out of a mode
+        
+    :wq: 
+        -- w -write, q -quit
+
+    :qa!:
+        -- if a file is readme only the use sudo with vim - sudo vim index.html
+        -- quit without saving
+
+
+Directory Structure:
+
+    var:
+        -- variable information like cache, logs
+
+    tmp:
+        -- temporary folder, any user can access
+        -- its green bcz any one can acesss
+
+    mnt:
+        -- mount storage and devices
+
+    home:
+        -- where users are placed
+
+    sbin:
+        -- system level binary files are stored here
+        -- machine convert commadn to binary 0,1
+        -- blue for system level
+
+    root:
+        -- root is super user
+
+    media:
+        -- images and others
+
+    etc:
+        -- all configs stay here
+        
+    boot:
+        -- system run program in ram, to start os
+
+    bin:
+        -- binaries
+
+
+Basic Commands:
+    clear:
+        -- clear the screen
+
+    echo "asd":
+        -- prints asd on screen
+    echo "text" > new_file.txt:
+        -- put the text and push the output in the new file
+
+    pwd:
+        -- present working directory
+
+    mkdir dev:
+        -- make directory named dev
+        -- in linux is either a file or directory
+
+    touch list.txt:
+        -- make txt file, .sh for shell scripts
+    
+    ls:
+        -- list files and folders
+        -- folders are blue
+
+    cd dev:
+        -- change directory
+        -- cd .. - move one step back
+        -- cd or cd ~ will bring to current user
+
+    man ls:
+        -- manual about ls
+
+    cp src dest:
+        -- copy files and directory
+        
+    mv src dest:
+        -- move files 
+
+    rm file:
+        -- remove file
+        -- -r, recursively delete a dir
+        -- -f, fore delete
+
+    rmdir:
+        -- remove directory
+
+    cat:
+        -- display file contents
+        -- /etc/passwd - shows all users
+
+SSH: 
+    $SHELL: 
+        -- the current shell type
+
+    SSH: [Secure Shell]
+        -- ssh -i "Web-Server-One-Key.pem" ubuntu@ec2-54-227-2-14.compute-1.amazonaws.com
+            -- -i is for key location, ubuntu is username
+            -- DNS is ec2-54-227-2-14.compute-1.amazonaws.com
+
+    Bashton Host | Jump server:
+        -- server that allows connection to other servers
+
+    ssh-keygen:
+        -- create a secret and public key
+        -- private key must be on server A
+        -- public keys are in .ssh/authorized_keys
+        -- then we will add the publi ckey from server a to server b authorized_keys using vim
+
+    scp -i prv_key src dest:
+        -- secure copy files to another server
+
+  
+Users and groups:
+
+    whoami:
+        -- currently logged in user
+
+    sudo useradd -m user_name:
+        -- add user to system
+        -- -m , make a home directory folder
+
+    sudo useradd -m user_name -s /bin/bash:
+        -- this opens in bash 
+        -- when we add a user, group is also greated
+
+    sudo passwd user_name:
+        -- set password on a user
+
+    sudo su:
+        -- switch to root user
+
+    su - user_name:
+        -- switch / substitute user
+        -- we enter into the user 
+        -- but shell is changed from bash to sh
+
+    cat /etc/passwd: 
+        -- list all users
+
+    cat /etc/group:
+        -- list all group
+    
+    sudo groupadd devops:
+        -- create a group
+
+    sudo gpasswd:
+    sudo gpasswd -M john,jack devops:
+        -- add multiple users to a single group
+
+    sudo usermod -aG devops john:
+        -- -a append to a group, -G is for group
+
+
+File Permissions:
+
+    ls -l:
+        -- list files verbose
+        -- -r--------  1 safi safi  387 Feb 18 21:20 Web-Server-One-Key.pem
+        -- first safi is user, second safi is group
+        -- 387 is size        
+
+    drwxr-xr-x:
+        -- d = directory, r = read, w = write, x = execute, permissions
+        -- file is read or wrtie, shell script is executable
+        -- first three (rwx) are for user, second  three (r-x) is group, other users have (r-x)
+
+    -rw-r--r--:
+        -- - is for file
+        -- first three (rw-) are for user, second  three (r--) is group, other users have (r--)
+        -- 644 is the number
+
+    Table:
+        -- r    w   x   |   
+           0    0   0   |   0
+           0    0   1   |   1
+           0    1   0   |   2
+           0    1   1   |   3
+           1    0   0   |   4
+           1    0   1   |   5
+           1    1   0   |   6
+           1    1   1   |   7
+        
+    chomd 400 first.txt:
+        -- we make the file readonly of user
+
+    chomd 477 first.txt:
+        -- making a file executable gives it green color
+
+    sudo chown first.txt user:
+        -- change ownershop of text file to user
+
+    sudo chgrp first.txt user_group:
+        -- change ownershop of group to user_group
+
+
+Daily (awk, grep, sed, find)
+
+    grep: [Global Regular Expression Print]
+
+        grep -i "search_this" first.txt:
+            -- -i is for case unsensitive
+
+        grep -i "search_this" first.txt | head -n 10:
+            -- we pass the output to head, to show 10 rows
+
+        grep -i "search_this" first.txt | head -n 10:
+            -- search last 10
+
+    awk: 
+        -- programmatic behaviour, we can use if, ==, $ 
+    
+        awk '{print}' first.txt
+            -- print the file
+
+        awk '/nginx/ {print $1,$2,$3}' first.txt
+            -- $ represent the words seperated with space
+            -- this is to filter and get other data
+
+        awk '/nginx/ {$1="sudo"; print $1, $2, $3}' ./documentation/linux.txt
+            -- Pattern Matching → /nginx/ ensures only lines containing "nginx" are processed.
+            -- Field Replacement → $1="sudo" correctly replaces the first column.
+            -- Correct Print Statement → print $1, $2, $3 prints the modified first three fields.
+
+        awk '/nginx/ {$1="sudo"; print $1, $2, $3}' ./documentation/linux.txt > nginx_cmd.txt:
+            -- we can forward output in a file
+        
+    sed: [Stream Editor]
+        
+        sed "s/user/username":
+            -- /s is for string
+            -- convert user to username in every stream
+
+        awk '/nginx/ {$1="nginx"; print $1, $2, $3}' ./documentation/linux.txt | sed 's/\bnginx\b/http/'
+            -- \b in sed → Ensures "nginx" is replaced as a whole word, avoiding partial replacements.
+            -- Keeps awk logic intact → $1="sudo" modifies the first field and prints selected fields.
+            -- Ensures correct piping → sed processes only the printed fields, not the full original line.
+
+        sed 's/\bnginx\b/http/g' file.txt:
+            -- /g changes file globaly
+
+        sed 's/\bnginx\b/http/g' file.txt | uniq:
+            -- uniq gives non-repeated data
+
+    find:
+
+        find . -name file.txt:
+            -- ding the file in current path (.)
+    
+            
+Networking:
+    Domain: 
+        -- used to reach an IP address
+
+    nslookup:
+        sudo apt update && sudo apt install bind9-dnsutils -y
+            -- nslookup is a package of bind9-utils
+
+    nslookup safi-siddiqui.com:
+        -- gives name and address of domain
+
+    ping 3.33.251.168:
+        -- ping for trainwuthshubham.com
+        -- ping uses ICMP protocol and it doesnot have ports
+        -- we have to allow inbound in our ec2
+
+    traceroute:
+        sudo apt install traceroute
+
+        debug:
+            -- in case i used wrong ip
+            -- i need to know how i went to this ip
+            -- this shows how request goes from our ip to requested ip
+
+    dig url|ip:
+        -- gives detials and history
+
+    wget url_to_file:
+        -- download a file from server
+
+    curl:
+        Verbs:
+            GET, POST, PUT, DELETE
+
+        curl -X GET "https://jsonplaceholder.typicode.com/todos/1"
+            -- perform a get request
+
+        curl -X GET "https://jsonplaceholder.typicode.com/todos/1 | jq"
+            -- pretty json
+
+
+Volums:
+Shell Scripting:
+        
+
+Packages:
+
+    Nginx:
+        a reverse-proxy web server to hsot web apps
+
+        sudo apt install nginx:
+            -- install nginx package
+
+        systemctl status nginx:
+            -- status about nginx
+
+        sudo systemctl start nginx
+            -- start nginx service
+
+        sudo systemctl stop nginx
+            -- stop nginx service
+
+        sudo systemctl enable nginx:
+            -- when we stop our system, the services stop
+            -- enable allows to run by restart
+        
+
