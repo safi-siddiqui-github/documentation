@@ -346,8 +346,112 @@ Networking:
         curl -X GET "https://jsonplaceholder.typicode.com/todos/1 | jq"
             -- pretty json
 
+Volumes:
+    -- for storage, blocks are required, like discs, in order to store data
+    -- AWS EC2 internal volumes, AWS ECB [Eastic Block Store] store external volumes
 
-Volums:
+    lsblk:
+        -- show attached volumes
+
+    df -h:
+        -- shows mounted volumes
+        -- also show disk space
+
+    mount:
+        -- bind volume to location, in order make it usable
+
+    attach:
+        -- atach volume to instance
+
+    snapshot:
+        -- backup volume
+
+    attaching:
+        -- in order to attach, give the name /dev/sdf, as abcde are already in use for root volume
+        -- /dev/sdf will be changed to /dev/xvdf in instance
+        -- when we attach adn us lsblk its shown 
+        -- but there mount point is empty
+
+    physical volume:
+        -- in order to use volume, we must convert it into physical volume
+
+    volume group:
+        -- if we have attached two or more volumes, then we can combine them in a group 
+        
+    Logical Volumes:
+        -- we can take small slices from groups
+
+    LVM: [Logical Volume Manager]
+        -- it manages root volume, physical and logical
+        -- physical make group, group make logical
+
+        Enter LVM:
+            pvcreate /dev/xvdf /dev/xvdg /dev/xvdh:
+                -- create physical volumes of 3 attached blocks
+
+            pvs:
+                -- list all physical volumes
+
+            pvdisplay:
+                -- list detail about physical volume
+
+            vgcreate safi_vg_one /dev/xvdf /dev/xvdg:
+                -- create volume group with two pvs
+
+            vgs:
+                -- list volume group
+
+            vgdisplay:
+                -- list detail about volume groups
+
+            lgcreate -L 10G -n safi_lv_one safi_vg_one:
+                -- create a logical volume from volume group
+
+            lvs:
+                -- list logical volumes
+
+            lvdisplay:
+                -- deatil list
+
+    Mount Logical Volume:
+        
+        mkdir /mnt/safi_lv_one_mount:
+            -- in order to monut lv we need to make a directory
+        
+        mkfs.ext4 /dev/safi_vg_one/safi_lv_one:
+            -- then i need to format my lv inside the group
+
+        mount /dev/safi_vg_one/safi_lv_one /mnt/safi_lv_one_mount/:
+            -- then we mount the lv source to dest
+
+        unount /mnt/safi_lv_one_mount:
+            -- unmount makes it non-usable
+            -- but data is persisted
+
+    AWS EBS on EC2:
+        -- if we need to directly mount an EBS volume without making a group, or ligical volume
+
+        mkdir /mnt/safi_disk_one_mount:
+            -- make dir for disk to mount
+
+        mkfs -t ext4 /dev/xvdh:
+            -- make file system of ext4 in the disc storage
+
+        mount /dev/xvdh /mnt/safi_disk_one_mount/:
+            -- mount disk to dir
+        
+
+    Dynamic Storage:
+        -- in order to make our logical volume bigger
+
+        lvextend -L +5G /dev/safi_vg_one/safi_lv_one:
+            -- extend more space into  lv 
+            -- this happens when our lv is connected to a group
+            -- and we have enough space on our group
+            -- this way lv extends from group from both pvs
+
+
+
 Shell Scripting:
         
 
