@@ -104,8 +104,13 @@ Basic Commands:
 
     echo "asd":
         -- prints asd on screen
+
     echo "text" > new_file.txt:
         -- put the text and push the output in the new file
+        -- removes older output
+        
+    echo "text" >> new_file.txt:
+        -- it appends into file with existing data
 
     pwd:
         -- present working directory
@@ -184,6 +189,9 @@ Users and groups:
 
     sudo passwd user_name:
         -- set password on a user
+
+    sudo userdel user_name:
+        -- delete a user
 
     sudo su:
         -- switch to root user
@@ -451,10 +459,105 @@ Volumes:
             -- this way lv extends from group from both pvs
 
 
-
 Shell Scripting:
-        
+    -- shell commands in a sequence
 
+    mkdir -p app-four:
+        -- if not present then make dir
+
+    .sh:
+        -- extension for shell scripts
+
+    echo $SHELL:
+        -- current shell
+
+    ls -l:
+        -- view if file has execute permissions
+
+    chmod 764 first.sh:
+        -- to give execute permission to file, and file becomes green
+
+    ./first.sh:
+        -- run the file using path
+
+    printenv:
+        -- print all env variables
+
+    ./first.sh some_line:
+        -- both of these are arguments
+        -- used using $0, $1
+        -- $@ prints all arguments excluding $0
+        -- $# counts all arguments excluding $0
+        -- $? tells teh resut of exit, 0 on false 1 on true
+
+    if [ -f data.txt ]:
+        -- checks if a file exists
+
+    ${#VAR}:
+        -- gives count of variables
+
+    scripts:
+    
+        #!:
+            -- # is for comment, !is for denoting sh type
+            -- #! is called as shebang
+
+        title="title":
+        echo $title:
+            -- set and print variable
+
+        $USER:
+            -- predefined env variables
+
+        read -p "Your msg" my_msg:
+            -- read takes input from using, by prompting the string and saving it in my_msg variable
+
+        <<help   <<any_word
+        help      any_word  :
+            -- multiline comments, we can use any word but must end with same name
+
+        sudo apt install nginx -y > /dev/null:
+            -- this doesnot dispkay the install proccess
+
+        function show_name {
+            echo "My name is safi"
+        }
+        show_name:
+            -- make a function and call it
+
+        for((num=1; num <=10; num++))
+        do 
+            show_name
+        done
+
+Backup:
+    -- when we terminate an instance, all data is removed
+    -- zip to compress and then move to backups dir
+
+    zip -r shell_scripts.zip ./scripts:
+        -- zip with all firs and files in scripts dir
+
+    zip -r /home/safi/backups/backup1.zip /home/safi/app-four/scripts
+    zip -r /home/safi/documentation/shell_scripts.zip /home/safi/app-four/scripts
+
+    date '+%Y-%m-%d':
+        -- date shows full date
+        -- format it using 'expression'
+
+
+CRON:
+    -- schedule a task 
+
+    crontab -e:
+        -- enter into cron app
+
+    * * * * * bash /home/safi/scripts/four.sh
+        -- this creates file every minute
+
+    watch ls /home/safi/app-scripts:
+        -- we watch the directory getting populated 
+    
+    
 Packages:
 
     Nginx:
