@@ -1,5 +1,10 @@
 Git Documentation:
 
+About:
+    Global Information Tracker by Linus
+    Source Code Management [SCM]
+    Version Control System [VCS]
+
 Version:
     git --version
 
@@ -8,7 +13,45 @@ Config:
     git config --global user.email safisiddiqui.work@gmail.com
     git config --global init.defaultBranch main
 
+Stages:
+    Untracked: 
+        -- files that have not been added
+        
+    Staged:
+        -- files that have not been committed
+    
+    Tracked:
+        -- files that have not been pushed 
+
+Access:
+    PAT: [Personal Access Token]
+        
+        git remote set-url origin https://<pat>@github.com
+            -- providing github with pat to push
+
+    SSH: 
+        
+        ssh-keygen:
+            -- create a key pair in .ssh
+            -- private file is for our local, public file is for gituhb
+
+        git clone:
+            -- clone using ssh
+
+        git diff:
+            -- after cloning and making changes, we can view diffs
+        
+Fork:
+    -- copy github repo from remote to remote
+
+Clone:
+    -- cpy github repo from remote to local
+
 Basics:
+
+    HEAD:
+        -- it represent the latest version
+
     git init
         -- initialise a git repo
 
@@ -33,11 +76,14 @@ Basics:
     git log
         -- check commit history
 
+    git log --oneline:
+        -- all commits in lines
+
     git pull
         -- pull latest updates from remote repo
 
     git remote -v:
-        -- check repo remote
+        -- check repo remote connections
 
 
 Branching and merging:
@@ -85,8 +131,6 @@ Branching and merging:
     git push origin --delete feature 
         -- delete feature branch remotely
 
-
-       
 
 Github CLI:
 
@@ -145,6 +189,15 @@ Github CLI:
     gh repo edit:
         -- edit repo settings
 
+    gh repo fork REPOSITORY:
+        -- fork remote repo into our github account
+        
+    gh repo fork REPOSITORY --clone=true --remote=true:
+        -- fork and clone at the same time
+        -- propose changes to upstream dir, configure remote=true to pull changes
+        -- after updating push changes to origin
+        -- in order to change original upstream repo, a pr need to be raised
+
     gh pr list:
         -- list open prs in repo
 
@@ -187,3 +240,5 @@ Github CLI:
     gh pr status:
         -- gives details about each pr, showing conflicts and all
     
+Branching Strategy:
+    -- Main, Staging/Testing, Dev, Feature, Ticket Tooling (Jira)
