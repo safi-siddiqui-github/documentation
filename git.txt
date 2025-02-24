@@ -242,3 +242,74 @@ Github CLI:
     
 Branching Strategy:
     -- Main, Staging/Testing, Dev, Feature, Ticket Tooling (Jira)
+
+Pull Request:
+    -- propose changes from branch to a base branch
+
+Revert:
+    -- revert/rollback a commit with a commit
+
+    git revert <commit_id>:
+        -- it reverst a commit if there is conflict then we resolve it
+        -- if no conflict then it passes and creates a revert commit
+
+    git revert --continue:
+        -- run this after conflict resolving
+        -- it adds a new commit as to revert back
+
+Conflict:
+    -- when same line has two code
+    -- then we have to manually solve it , conflict resolving
+
+Reset:
+    -- resets changes without commit
+
+    git reset <id> --soft:
+        -- it will intrack but keep on stage all changes below this 
+
+    git reset <id> --mixed:
+        -- it will untrack but not keep on stage
+
+    git reset <id> --hard:
+        -- everything will b deleted
+
+Stashing:
+    -- when we move from work in progress to another branch
+    -- git doesnt allows to move until commited or stashed
+    
+    git stash:
+        -- all progress is saved in stacked queue
+
+    git stash pop:
+        -- when we want to get the stashed files
+
+    git stash list:
+        -- list all stashes
+
+Cherry-Picking:
+
+    git cherry-pick <commit_id>:
+        -- if i only need a specific commit from some branch
+
+Rebase:
+
+    git merge feature:
+        -- when we work between two mranches adn suppose we commit 1 and 2 on main
+        -- then switched to another and commited 3 and 4 on feature branch 
+        -- then we move back to main and commited 5,6
+        -- then moved to fetaure and committed 7 and 8 
+        -- now if we swithc to main and use merge
+        -- then our commit histroy will be first main then feature [1,2,5,6    3,4,7,8]
+        -- this make non-linear track of histroy
+
+    git rebase feature:
+    -- if i want a linear track of history within timestamps
+
+Branching Production:
+    -- Dev -> Staging-> Main 
+    -- Feature -> Dev -> Staging-> Main 
+    -- Feature/Login -> Dev -> Staging-> Main 
+    -- Fix/Signup -> Dev -> Staging-> Main 
+    -- Bug/Page -> Dev -> Staging-> Main 
+    -- Jira/Ticket -> Dev -> Staging-> Main 
+
