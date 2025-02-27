@@ -1,5 +1,41 @@
 Docker Documentation:
 
+Intro:
+    -- Docker is a PAAS platform as a service, those apps will run in every system
+
+    Virtualization: [Virtual Machine]
+        -- Virtual environment to run a system like linux, use allocated resources
+
+        Hypervisor:
+            -- Allocates system resources like ram, disk, and make virtual machine on itself
+            -- if two vms of 5 gb are made, then 10 gb of system is allocated
+            -- this use of hyperviser is called as virtualization
+
+    Containerization:
+        -- Docker container use shared resources 
+
+        Docker Engine:
+            -- it run OS's ram and disk by accessing OS's Kernel system 
+            -- it makes processes aka containers that allows to run application 
+
+Docker Components:
+    
+    ContainerD:
+        -- docker runs this in background
+        -- it uses linux kernel to run containers
+
+    Docker Daemon:
+        -- daemon means background process
+        -- It run above containerD
+
+    Docker CLI:
+        -- In order to talk to daemon, cli is used
+
+    Docker Engine:
+        -- Above complete architecture is docker engine that works together
+
+        
+
 Installation:
     sudo apt-get install ca-certificates curl:
         -- ca-certificates: Ensures your system trusts HTTPS certificates from various authorities, preventing security issues while downloading packages. These are "Certificate Authorities" certificates. They allow your system to verify the authenticity of websites and other network resources, ensuring secure connections. Docker uses them to verify the integrity of its downloads.
@@ -105,20 +141,6 @@ Installation:
     Networking:
         -- Understand Docker networking and create custom networks as needed to isolate your containers and improve security.
 
-Basic Commands:
-
-    docker build –help | docker search ubuntu | docker run hello-world | docker pull ubuntu:
-    System information about command, search docker hub for images and [OK] is official image, run images, download the official ubuntu image to your computer
-
-    docker ps:
-    View only active/running containers.
-    To view all containers — active and inactive, run docker ps with the -a switch.
-    To view the latest container created — run docker ps with the -l switch.
-    docker start 1c08a7a0d0e4 | stop container_name | rm container_name:
-    To run the container using its ID, stop using name, remove using name.
-
-    docker run -it ubuntu | docker run -i -t ubuntu:
-    The combination of the -i and -t switches gives you interactive shell access into the container.
 
 Uninstall Docker:
 
@@ -156,3 +178,248 @@ Uninstall Docker:
             -- These commands remove the Docker GPG key
 
     The provided commands are good for a clean uninstall. Removing the repository configuration and GPG key is important to prevent issues if you reinstall Docker later.
+
+Docker Login:
+    docker login:
+        -- login using PAT from docker
+
+Dockerfile:
+    -- A file that creates images that run containers
+
+Basic Commands:
+
+    docker build –help:
+        -- System information about command 
+
+Docker Images:
+    
+    docker search ubuntu:
+        -- search docker hub for images and [OK] is official image
+    
+    docker search python --filter is-official=true:
+        -- search python image and it must be official
+
+    docker run --rm python:latest cat /etc/os-release:
+        -- The docker search command only shows high-level details and
+        -- does not list different variants (like alpine, slim, or versions).
+        -- It only displays the official base image (python) from Docker Hub.
+        -- we can run this to get different version
+
+    docker pull ubuntu:
+        -- download the official ubuntu image to your computer
+
+    docker images remove 78945 123548:
+        -- remove iamge using id
+
+    docker rmi $(docker images -q):
+        -- remove all images
+
+Docker Containers:
+    
+    docker ps:
+        -- View only active/running containers.
+
+    docker ps -a:
+        -- To view all containers — active and inactive, run docker ps with the -a switch.
+
+    docker ps -l:
+        -- To view the latest container created — run docker ps with the -l switch.
+
+    docker run -it ubuntu:
+        -- Run ubuntu container using ubuntu image from docker hub
+        -- -it flag is for using interactive shell mode inside container
+        -- it stops when exited
+
+    docker run -d -p 80:80 nginx: 
+        -- -p is used to publish port or map port number 80 on our host machine 
+        -- to port number 80 inside the container
+        -- bcz we need to bind port 80 from os to port 80 in the linux process
+        -- -d is for detach mode to run in background
+        -- it doesnot stop when exited
+
+    docker stop 45272a0bf5f4 | quirky_cartwright:
+        -- stop a container using id or name
+
+    docker start 45272a0bf5f4 | quirky_cartwright:
+        -- start a container using id or name
+
+    docker rm 45272a0bf5f4 | quirky_cartwright:
+        -- remove a container using id or name
+    
+Dockerfile:
+
+    Syntax:
+        FROM [<base_image>:<image_tag>]
+        WORKDIR [working directory]
+        COPY [copy code]
+        RUN [install librarires]
+        EXPOSE [expose port]
+        CMD [serve application]
+
+    alpine:
+        -- lightweight linux distro
+
+    run/cmd:
+        -- run builds the container
+        -- cmd serves the container
+    
+    cmd/entrypoint:
+        -- cmd can be over-written but entrypoint cannot be
+
+Java App: ->>> </home/safi/tws/java-quotes-app>
+    
+    docker build -t java_quotes:latest .:
+        -- Used to build images 
+        -- build is the process of compiling
+        -- -t is for naming the container
+        -- . represents the file location
+
+    docker run -d -p 80:8000 --name java_quotes_app java_quotes:latest:
+        -- run the container, expose port
+        -- --name flag is for naming the container
+
+Python App: ->>> </home/safi/tws/flask-app-ecs>
+    
+    docker build -t flash_api:latest .
+    docker run --rm -p 80:80 flash_api:latest [remove_on_detach]
+
+Javascript App: ->>> </home/safi/tws/flask-app-ecs>
+    
+    docker build -t nextjs_profile:latest .
+    docker run -d -p 80:3000 --name nextjs_profile_app nextjs_profile:latest
+    docker rm nextjs_profile_app 
+
+Distroless Images:
+    -- when we use python:latest base image our build is upto 1 gb
+    -- but when we use python-slim base image our build is 126 mb
+    -- in distroless the OS is very minimal, files are small
+    -- Distroless images contain only your application and its runtime dependencies.
+    -- They do not contain package managers, shells or any other programs
+    -- you would expect to find in a standard Linux distribution.
+
+    -- we make a multi stage Dockerfile
+
+    docker build -t flash-app-mini -f ./Dockerfile-MS .:
+        -- -f represent the path of Dockerfile for multi stage build
+
+    docker run -d -p 80:80 --name flash-mini-app flash-app-mini:latest
+
+    docker image tag flash-app-mini:latest username/flash-app-mini:latest
+
+Docker Volumes:
+
+    docker volume ls:
+        -- list volumes
+
+    docker volume create mysql_data:
+        -- create volume names mysql_data
+
+    docker inspect mysql_data:
+        -- we inpect the volume, and see the mount point for our data
+
+    MYSQL Volume:
+        docker pull mysql:
+            -- pull latest image
+        
+        docker run -d --name mysql_db -v mysql_data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql
+            -- -e is for environment variable that mysql asks
+            -- -v maps teh volume in host to container where mysql stores data
+
+        docker exec -it mysql_db bash:
+            -- in order to go inside a runnig container
+            -- bash is shell we are using
+        
+        mysql -u root -p:
+            -- connect to mysql using 'root' password
+
+        docker stop mysql_db | docker rm mysql_db:
+            -- stop and remove container
+
+    Python App: ->>>>
+    
+        docker run -it --rm -v $(pwd):/app -w /app python bash
+            -- enter into app to install deps
+        
+        docker run --rm -p 80:80 -v $(pwd):/app flash-app-mini:latest
+            -- run the app and live upadte
+
+
+Docker Networking:
+    
+    docker network ls:
+        -- list all networks
+
+    docker network create network_one:
+        -- create a user defined netowrk
+
+    Types:
+        Bridge:
+            -- default
+            -- port mapping is fone using Bridge    
+
+        None:
+            -- complete isolation of container
+            -- no connection between containers
+        
+        Host:
+            -- docker container must match the host netowrk
+            -- no port mapping is required
+
+        User Defined Bridge:
+            -- created by user 
+
+        MACV LAN:
+            -- connect to device using mac address  
+
+        IPV LAN:
+            -- connect to device using ip address  
+
+        Overlay:
+            -- connect to defferent servers like diff ec2s  
+        
+Tier Flask + Mysql app:
+    -- In order to connect two container we need bridge network
+    -- suppose container names are flask and mysql
+    -- then container name becomes domain
+
+    docker network create ttfan:
+        -- create a network
+
+    docker run -d \
+        --name ttfa_mysql \
+        -v ttfav:/var/lib/mysql \
+        -p 3306:3306 \
+        --network=ttfan \
+        -e MYSQL_ROOT_PASSWORD=root \
+        -e MYSQL_USER=safi \
+        -e MYSQL_PASSWORD=password \
+        -e MYSQL_DATABASE=ttfa_db \
+        mysql:latest
+
+        -- create a mysql container with port, network and environment
+
+    docker build -t ttfa_img .
+        -- build the image
+
+    docker run -d \
+        --name ttfa_app \
+        -p 5000:5000 \
+        --network=ttfan \
+        -e MYSQL_HOST=ttfa_mysql \
+        -e MYSQL_USER=safi \
+        -e MYSQL_PASSWORD=password \
+        -e MYSQL_DB=ttfa_db \
+        ttfa_img:latest
+
+        -- run the container with port, environment
+
+Docker Compose:
+    -- yaml is a general config file with key:value pair, or an object with multiple pairs
+    -- list is denoted as hyphen "-" in ports or environment variables 
+    
+TTFA:
+    -- as mysql takes 10 seconds to get ready
+    -- we use healthcheks with interval
+    -- the start_period is when to start retrying
+    -- timeout is time to wait after tries are done
+    

@@ -1,2 +1,44 @@
 Jira Concepts:
-    -- 
+
+Project Manager or tracker
+
+Methadology:
+    Agile:
+        -- Requirement is tasked, work is developed with iterated with tests, until deployed
+
+    Waterfall:
+        -- Cannot move to second task unless first task is not completed
+    
+Scrum:
+    -- Creating task in todo, then moving from progress, testing, done
+
+    Sprints:
+        -- These are assgined to a task to be done in a given time
+        -- Sprints have goals to achieve
+        -- Sprints also have points
+
+Kanban:
+    -- board representation, same as Scrum, task are given
+    -- we dont see a timeline for a task
+
+Epic:
+    -- Goal we have to achieve, main title
+
+Story:
+    -- Description of goal for a person
+
+    Story Points:
+        -- Difficulty / Time Taken
+        -- 1, 2, 3, 5, 8, 13
+        -- 1 is easy, 2 is normal, 3 is medium
+        -- 5 is a week, 8 is 2-3 weeks, 13 is for a month
+
+
+Task:
+    -- Apply, Create or update the code
+    -- Steps, process, how i can achieve the goal
+
+
+Backlog:
+    -- Tasks that dont need to be included
+    
