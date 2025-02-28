@@ -1,5 +1,5 @@
 Git Documentation:
-pwd:/home/safi/documentation
+pwd:documentation
 
 About:
     Global Information Tracker by Linus
