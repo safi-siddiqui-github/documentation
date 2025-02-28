@@ -1,4 +1,5 @@
 Git Documentation:
+pwd:/home/safi/documentation
 
 About:
     Global Information Tracker by Linus
@@ -81,6 +82,10 @@ Basics:
 
     git pull
         -- pull latest updates from remote repo
+
+    git pull upstream master
+        -- pull updates from upstream, when forked
+        -- branch must be changed in order to recieve updates on master
 
     git remote -v:
         -- check repo remote connections
