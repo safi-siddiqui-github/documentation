@@ -1,0 +1,98 @@
+Jenkins Commands:
+
+Setup Jenkins on AWS:
+UI Flow:
+Pipeline:
+Automate CI/CD:
+Agents / Nodes:
+DevSecOps:
+RBAC:
+GItlab CI/CD:
+Github actions:
+AWS DevOPS:
+Azure DevOPS:
+Argo CD:
+
+CI/CD:
+    Continous Integration / Continous Deployment
+        -- CI is code pushed to github, then build image, then integration testing
+        -- CD is code pushed to docker hub, then deployed
+
+    Unit Testing:
+        -- testing a single unit like login, singup, product, etc
+
+    Integration:
+        -- but if i want to perform these testing on complete system then i need to do integration test 
+    
+    Role of Jenkins:
+        -- Automate this ci cd process
+
+Jenkins-Server-One:
+    -- dedicated server for jenkins
+    -- enable ssh, http, https
+    -- it use more storage
+    -- it uses port 8080, custom TCP for my IP
+
+Installation (LTS):
+
+    sudo apt update:
+        -- Update the Debian apt repositories, install OpenJDK 17, and check the installation with the commands:
+
+    sudo apt install fontconfig openjdk-17-jre:
+        -- Jenkins requires Java to run, yet not all Linux distributions include Java by default.
+        -- Additionally, not all Java versions are compatible with Jenkins.
+        -- There are multiple Java implementations which you can use.
+        -- OpenJDK is the most popular one at the moment, we will use it in this guide.
+
+    java -version:
+        -- check java version
+
+    sudo apt update -y | sudo apt upgrade -y
+
+    sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+        https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+        -- wget: Downloads a file from the internet.
+        -- -O /usr/share/keyrings/jenkins-keyring.asc: Saves the downloaded key at /usr/share/keyrings/jenkins-keyring.asc.
+        -- https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key: URL of the Jenkins signing key.
+        -- Why: This key ensures that packages from the Jenkins repository are trusted and not tampered with.
+
+
+    echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+        https://pkg.jenkins.io/debian-stable binary/" | sudo tee \
+        /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+        -- echo "deb [...] https://pkg.jenkins.io/debian-stable binary/": Defines the Jenkins repository location.
+        -- signed-by=/usr/share/keyrings/jenkins-keyring.asc: Ensures the repository is signed with the key we added earlier.
+        -- | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null: 
+            -- Creates a new repository file at /etc/apt/sources.list.d/jenkins.list.
+            -- tee writes the output to the file while > /dev/null prevents additional output.
+
+    sudo apt update:
+        -- Refreshes the package lists from all repositories, including the newly added Jenkins repo.
+        -- Why: Ensures apt knows about the latest available Jenkins package.
+
+    sudo apt install jenkins:
+        -- Installs the Jenkins LTS version from the repository.
+        -- Install Jenkins as a system service.
+        -- Set up Jenkins to start automatically on boot.
+
+    sudo systemctl start jenkins:
+        -- After installation, Jenkins runs on port 8080 by default.
+
+    sudo systemctl status jenkins:
+        -- Check Jenkins status:
+        
+    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+        -- Get the initial admin password:
+
+Admin Setup:
+
+    Username: Safi-Admin-Jenkins
+    
+    Password:
+        openssl rand -base64 16:
+            -- Generates a 16-byte random password in Base64 format.
+
+            
+
