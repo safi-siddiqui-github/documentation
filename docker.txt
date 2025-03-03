@@ -37,7 +37,7 @@ Docker Components:
         
 
 Installation:
-    sudo apt-get install ca-certificates curl:
+    sudo apt install ca-certificates curl:
         -- ca-certificates: Ensures your system trusts HTTPS certificates from various authorities, preventing security issues while downloading packages. These are "Certificate Authorities" certificates. They allow your system to verify the authenticity of websites and other network resources, ensuring secure connections. Docker uses them to verify the integrity of its downloads.
         -- curl: A tool to fetch data from URLs, required to download Docker’s GPG key. This is a command-line tool for transferring data with URLs. We'll use it to download the Docker GPG key in the next step.
 
@@ -55,7 +55,7 @@ Installation:
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
         $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
+    sudo apt update
 
         -- This command adds the Docker repository information to your system's package sources.
         -- echo..: This part constructs the line that will be added to the Docker repository configuration file.
@@ -92,7 +92,7 @@ Installation:
                 -- This redirects any output from tee (which would be the same repository line) to /dev/null,
                 -- effectively suppressing it and prevents unnecessary terminal clutter.
                 -- We don't need to see the output; we just want the file written.
-        -- sudo apt-get update: 
+        -- sudo apt update: 
             -- Fetches the latest package information, including Docker’s newly added repository.
             -- As before, this updates your system's package list after adding the new Docker repository.
             -- This is essential so that your system knows about the Docker packages now available.
@@ -213,6 +213,13 @@ Docker Images:
 
     docker rmi $(docker images -q):
         -- remove all images
+
+    docker image prune:
+        -- When you rebuild an image with the latest tag,
+        -- Docker creates a new image and assigns the latest tag to it.
+        -- The previous image is left untagged (<none>).
+        -- This can lead to "dangling" images that consume disk space
+        -- Prune removes all untagged (<none>) images.
 
 Docker Containers:
     
