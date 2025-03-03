@@ -382,3 +382,4 @@ Trivy:
 Shared Libraries:
     -- we write the jenkins first in a file and then use them in all repos
     -- manage/system/ global trusted pipeline
+    -- we add the repo, version / branch, then use is as libray in pipeline
