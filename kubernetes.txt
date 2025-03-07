@@ -1,0 +1,396 @@
+Kubernetes Docs:
+
+History:
+    Borg (google):
+        -- auto heal servers on crash
+        -- auto scale servers on traffic
+
+    Opensource (kubernetes) [CNCF]:
+        -- adopted by  for cloud native development
+        -- graduated top
+        -- Go language
+        
+    Apps:
+        Monolith:
+            -- app having Front end , back end, database, authentication all
+            -- if one service is wrong, then whole container is refreshed
+
+        Microservices:
+            -- container serving each sevices
+            -- single container for backend
+            -- single for frontend
+
+Working:
+    
+    Cluster:
+        -- server / node / instance 
+        -- group of servers working in a network is a cluster
+        -- master server works with multiple worker nodes
+
+    Sketch:
+    
+    |-------------------------------------------------------------------------------------------------------|
+    |                                                                                                       |
+    |   Kubernetes Cluster                                                                                  |
+    |                                                                                                       |
+    |                                                                                                       |
+    |                                  |<-------> kubectl                                                   |
+    |                                  |                                                                    |
+    |    |-----------------------------|----------|   |-----------------------------------|                 |
+    |    | (Master)                    |          |   | (Worker Node)                     |                 |
+    |    |                             |          |   |                                   |                 |
+    |    | Scheduler <-----------><|   |     |<---------> Kubelet <-------------->        |                 |
+    |    |                         |   |     |    |   |           |            |          |                 |
+    |    |                         |   |     |    |   |           |            |          |                 |
+    |    |                         v   |     v    |   |   [Container]    [Container]      |                 |
+    |    | etcd <----------------> API Server     |   |                                   |     User        |
+    |    |                         ^        ^     |   |   |-------------|                 |       ^         |
+    |    |                         |        |     |   |   | Pod         |                 |       |         |
+    |    |                         |        |     |   |   |             |                 |       |         |
+    |    |                         |        |     |   |   | (Container) |                 |       |         |
+    |    |                         |        |     |   |   |-------------|                 |       |         |
+    |    |                         |        |     |   |                                   |       |         |
+    |    | controller manager <--><|        |><---------> Service Proxy <-----------------------><|         |
+    |    |                                        |   |                                   |                 |
+    |    |                                        |   |                                   |                 |
+    |    |----------------------------------------|   |-----------------------------------|                 |
+    |                                                                                                       |
+    |    [--------------- CNI network: Weave net, Calico, etc ----------------------------]                 |
+    |    [Container Network Inteface]                                                                       |
+    |                                                                                                       |
+    |-------------------------------------------------------------------------------------------------------|
+        
+    Master Node:
+        -- Scheduler, API Server, etcd, controller image
+        -- Also known as Control Plane
+
+    Working Node:
+        -- Kubelet, Service Proxy, Containers
+
+    Analogy:
+        -- Kubelet works as node manager reporting to API Server
+        -- API Server works as team lead
+        -- Controller manager is responsible for managing complete project 
+        -- Scheduler serves as HR and talks to API Server
+        -- if a container on worker node crashes scheduler works with API server
+        -- etcd works as database, API Server saves info here
+        -- service proxy is responsible for inward and outward flow to user
+        -- Worker nodes communicate throught CNI network as a complete cluster
+        -- Multiple containers work in each working node
+        -- Each container works in a pod
+        -- Kubelete is responsible if each pod is working 
+        -- kubectl acts as CEO
+    
+    Auto Scaling:
+        -- If traffic increases on worker node then kubelet will talk to API Server tha we requrie more containers
+        -- API Server talks to scheduler to get more containers, then scheduler will increase pods
+
+    Auto healing:
+        -- Same working, but here pods crashes
+
+    Concept:
+        -- Kubernetes cluster is made in many ways
+        -- one is is to make multiple servers like multiple ec2's managed by kubeadmin that install components
+        -- second is we make only one server that has docker container and run kubernetes components in it called minikube
+        -- third is, a replica of original kubernetes container, a master node being docker contaienr and multiple worker node being replicas called as KinD [kubernetes in docker]  
+        -- EKS [elastic kubernetes service], run k8s on aws managed master node, we only have to make ec2 instance and assign it 
+        -- killerkoda , make cluster online with presentation
+        -- Rancher, manage multiple k8s clusters
+        
+    Production:
+        -- AWS EKS, Azure AKS, GCP GKE 
+        -- (Redhat) Openshift
+
+    EC2:
+        -- alteast 2 cpus
+        -- 36.26 $ monthly - 10,120 pkr
+
+
+Install:
+
+    Docker / Kubectl Install:
+
+        sudo snap install docker --classic
+        sudo addgroup --system docker
+        sudo adduser $USER docker
+        newgrp docker
+        sudo snap disable docker
+        sudo snap enable docker
+        docker version --client
+
+        sudo snap install kubectl --classic
+        kubectl version --client
+        
+    Kind Install:
+
+        [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
+        chmod +x ./kind
+        sudo mv ./kind /usr/local/bin/kind
+        kind version
+
+        Download kind Binary:
+            [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
+                -- [ $(uname -m) = x86_64 ]:
+                    -- uname -m returns the machine architecture (e.g., x86_64 for 64-bit systems).
+                    -- The [ ... ] && construct is a conditional. If the architecture is x86_64, the command after && will run.
+                -- curl -Lo ./kind ...:
+                    -- curl: Downloads files from a URL.
+                    -- -L: Follows redirects.
+                    -- -o ./kind: Saves the file as kind in the current directory.
+
+        Download URL:
+            https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
+                -- Downloads the specific v0.27.0 version of the kind binary for Linux on amd64 architecture.
+
+        Make the Binary Executable:
+            chmod +x ./kind
+                -- chmod +x: Adds execute permissions to the kind file.
+                -- ./kind: Refers to the downloaded binary in the current directory.
+
+        Move to /usr/local/bin:
+            sudo mv ./kind /usr/local/bin/kind
+                -- sudo: Grants superuser permissions, required for writing to system directories.
+                -- mv ./kind /usr/local/bin/kind:
+                -- Moves the kind binary to /usr/local/bin, a directory in the PATH, making kind globally accessible as a command.
+
+        Verify the Installation:
+            kind version
+
+
+Manfiest Files:
+    -- everything in k8s is a manifest config file written in yml
+
+/kubernetes:
+    Config (config.yaml):
+
+        kind: Cluster
+        apiVersion: kind.x-k8s.io/v1alpha4
+        name: cluster
+
+        nodes:
+        - role: control-plane
+          image: kindest/node:v1.32.2@sha256:f226345927d7e348497136874b6d207e0b32cc52154ad8323129352923a3142f
+        
+        - role: worker
+          image: kindest/node:v1.32.2@sha256:f226345927d7e348497136874b6d207e0b32cc52154ad8323129352923a3142f
+
+        - role: worker
+          image: kindest/node:v1.32.2@sha256:f226345927d7e348497136874b6d207e0b32cc52154ad8323129352923a3142f
+
+        - role: worker
+          image: kindest/node:v1.32.2@sha256:f226345927d7e348497136874b6d207e0b32cc52154ad8323129352923a3142f
+
+
+Namespace:
+    -- A logical group having resources like containers 
+
+Pod:
+    -- docker containers run inside pods
+
+Desired State / deployment:
+    -- in order to scale to 100 containers we set config in deployment state 
+    -- then expose using kube proxy
+
+Deployment:
+    -- multiple contianers can run in pods
+    -- if traffic increases i would need clone/replica of my pods
+
+    Stateless Pods:
+        -- nginx only serves apps 
+
+    Replica Set:
+        -- deployment in background is making replica sets
+
+    Rolling Updates:
+        -- if we change image or our deployment and then apply deployment.yaml
+        -- k8s will make sure active containers are running
+        -- meanwhile it will terminate non-active containers
+        -- also create new ones , one by one
+
+    Replicas:
+        -- make replica 0 to terminate all pods
+
+Service:
+    -- allows access to our pods
+
+    Types:
+        Node Port:
+            -- port number assigned to a worker node
+
+        Cluster IP:
+            -- k8s cluster ip is the access point
+
+        External IP:
+            -- map an external ip address to cluster to be redirected
+
+        Load Balancer:
+            -- aws, azure, aws eks cluster is accessed using load balancer 
+            -- load balancer is attached to our services 
+
+        Headless:
+            -- Associated with stateful service
+
+    Syntax:
+        selector:
+            app.kubernetes.io/name: MyApp ===> app: nginx
+
+            -- we need to the name of the label used in deployment
+            -- we dont have to use the label used for app
+
+        targetPort:
+            -- it sthe container's port in deployment
+            
+    Port Forward:
+        -- docker contaeinr is exposed on 80, wich is exposed to deployment 80
+        -- deployment 80 is exposed to service 80 which is exposed to k8s cluster ip at 80
+        -- but as the whole cluster is defined within KIND layer so we have to map or forward port 80 
+        -- first 80 being thehost or instance port, second being kind's port 
+        -- kubectl port-forward svc/nginx-svc -n nginx-ns 80:80 --address=0.0.0.0
+
+New App:
+    -- in existing - cluster-one we will make a new app
+    -- create a namespace - osp-ns
+    -- create a deployment -osp-deployment
+    -- inside D, deployment will have label osp-app
+    -- inside D, spec.selector.matchLabels be osp-app
+    -- inside D, in order match label we require a template 
+    -- inside D, template.metadata.labels will be osp-app, which must match D's metadata.label osp-app  
+    -- then apply deployment, an view the pods and deployment on namespace
+    -- create a service and apply it
+    -- forward the port  
+
+
+Ingress:
+    -- incoming traffic 
+    -- suppose two virtual clusters osp-ns and nginx-ns are running
+    -- it provides path based routing instead of port based routing 
+    -- most useful for micro service structure
+    -- all routing is managed using a ingress-nginx-controller 
+    -- we need to expose it,
+    -- sudo -E kubectl port-forward svc/ingress-nginx-controller -n ingress-nginx 80:80 --address=0.0.0.0
+    -- controller attaches services from background
+    -- services must not need to run
+    -- make sure pods are running, else nginx will ginve 503 temporary unavailable error
+
+
+Commands:
+
+    free -h:
+        -- ram memory
+
+    kind create cluster --config=config.yaml
+        -- create a cluster from this config
+        -- also make the containers run
+
+    kind get clusters
+        -- list clusters
+
+    kind delete cluster --name cluster-one:
+        -- delete a cluster
+        
+    kubectl get nodes:
+        -- list all nodes
+        
+    kubectl get pods:
+        -- list all pods
+        
+    kubectl get services:
+        -- list all services
+
+    kubectl cluster-info:
+        -- info
+
+    kubectl cluster-info --context kind-cluster-one:
+        -- in order to interact with specific cluster
+
+    kubectl config view:
+        -- view contexts
+
+    kubectl config get-clusters:
+        -- Display clusters defined in the kubeconfig
+
+    kubectl config get-contexts:
+        -- Describe one or many contexts
+
+    kubectl apply -f namespace.yaml:
+        -- create a namespace
+
+    kubectl get namespaces | kubectl get ns:
+        -- list all namespaces
+
+    kubectl apply -f pod.yaml:
+        -- create a namespace
+
+    kubectl get pods -n nginx-ns:
+        -- get pods according to namespace
+
+    kubectl delete pods nginx-pod -n nginx-ns:
+        -- delete pods according to namespace
+
+    kubectl apply -f deployment.yaml --dry-run=client:
+        -- dry run a deployment to check if its healthy
+
+    kubectl apply -f deployment.yaml:
+        -- create a deployment
+
+    kubectl get deployments -n nginx-ns:
+        -- list all deployments in nginx-ns namespace
+        -- if we delete a pod, then it will auto create
+
+    kubectl scale deployment nginx-deployment -n nginx-ns --replicas=10:
+        -- scale deployment
+
+    kubectl get rs -n nginx-ns:
+        -- list all replica sets
+
+    kubectl apply -f service.yaml:
+        -- attach service
+
+    kubectl get svc -n nginx-ns:
+        -- list services 
+        
+    sudo -E kubectl port-forward svc/nginx-svc -n nginx-ns 80:80 --address=0.0.0.0
+    sudo -E kubectl port-forward svc/osp-svc -n osp-ns 5173:5173 --address=0.0.0.0
+        -- expose kind cluter to our host -E making an environment
+
+    kubectl get all -n osp-ns:
+        -- gives pods, service, deployment, replicas
+
+    kubectl apply -f https://kind.sigs.k8s.io/examples/ingress/deploy-ingress-nginx.yaml:
+        -- install ingress controller
+        == namespace ingress-nginx - service ingress-nginx-controller
+
+            namespace/ingress-nginx created
+            serviceaccount/ingress-nginx created
+            serviceaccount/ingress-nginx-admission created
+            role.rbac.authorization.k8s.io/ingress-nginx created
+            role.rbac.authorization.k8s.io/ingress-nginx-admission created
+            clusterrole.rbac.authorization.k8s.io/ingress-nginx created
+            clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission created
+            rolebinding.rbac.authorization.k8s.io/ingress-nginx created
+            rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+            clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx created
+            clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+            configmap/ingress-nginx-controller created
+            service/ingress-nginx-controller created
+            service/ingress-nginx-controller-admission created
+            deployment.apps/ingress-nginx-controller created
+            job.batch/ingress-nginx-admission-create created
+            job.batch/ingress-nginx-admission-patch created
+            ingressclass.networking.k8s.io/nginx created
+            validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created
+
+    kubectl get svc -n ingress-nginx:
+        -- we get ingress-nginx-controller
+
+    kubectl get pods -n ingress-nginx:
+        -- pods
+
+    sudo -E kubectl port-forward svc/ingress-nginx-controller -n ingress-nginx 80:80 --address=0.0.0.0
+        -- we need to expose ingress-nginx-controller
+
+    kubectl apply -f ingress.yaml:
+        -- create ingress 
+        
+    kubectl get ing -n osp-ns:
+        -- get ingress for netowrk
