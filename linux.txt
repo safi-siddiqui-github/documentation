@@ -579,4 +579,49 @@ Packages:
             -- when we stop our system, the services stop
             -- enable allows to run by restart
         
+Wifi:
+    sudo lshw -C network:
+        -- check your wifis
+
+    sudo ip link show:
+        -- verify your wifi
+
+    sudo find /sys/ -name "wlp1s0":
+    sudo find /sys/ -name "wlp2s0":
+        -- whatever your wifi name is
+
+    sudo ls /sys/class/net/wlp1s0/:
+        -- list all fiels in folder and find phy80211
+
+    sudo ls /sys/class/net/wlp1s0/phy80211:
+        -- list under this
+
+    sudo cat /sys/class/rfkill/rfkill3/soft:
+        -- if its "1", then all networks are blocked
+
+    sudo su - root:
+    sudo echo 0 > /sys/class/rfkill/rfkill3/soft:
+        -- switch to root user and perfomr this
+    
+    sudo su - dev:
+    sudo ip link set wlp2s0 up:
+        -- switch back to user role and enable wifi
+
+    sudo vim /etc/netplan/50-cloud-inti.yaml:
+        -- this maybe defailt file, but the name can change
+
+            network:
+              version: 2
+              renderer: networkd
+              wifis:
+                wlp2s0:
+                dhcp4: true
+                access-points:
+                      "Your_SSID":
+                      password: "Your_Password"
+
+    sudo netplan apply:
+        -- apply yaml configs
+
+    
 
