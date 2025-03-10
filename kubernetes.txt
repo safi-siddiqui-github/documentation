@@ -272,6 +272,54 @@ Ingress:
     -- services must not need to run
     -- make sure pods are running, else nginx will ginve 503 temporary unavailable error
 
+Secrets and ConfigMaps:
+    -- in order to run a mysql pod we need to define env in deployment 
+    -- non-exposable keys are secrets, exposable keys are config maps
+    -- k8s uses base 64 secrets to maintain security
+
+Storage:
+
+    Storage Class:
+        -- selects data is stored in local (host), manually
+        -- if a small persistent volume is created
+        -- volumes wont connect to pod until claimed using PVC [persistent volume claim]
+
+    Persistent Volume:
+        -- if we need to make pv on a node and claim it to mysql pod
+        -- hostPath must be node /mnt path
+        -- it resides on cluster
+
+Metric Server:
+    -- metrics api server to monitor resource usage
+    -- we have to edit it in order to work the deployment
+    -- then restart the server
+    -- lts to allow http 
+
+HPA: [Horizontal Pod Autoscaler]
+    -- service proxy handles routes to deployment to pods
+    -- due to huge traffic pods can crash
+    -- due to huge traffic node cpu level increases
+    -- we had to manually increase replicas 
+    -- now we automate this using HPA resource
+    -- hpa attaches to deployment, with min=1, and max=10| unlimit
+    -- as nodes cpu increase we have to view k8s cluter metrics
+
+    Resource Limiting:
+    -- we can also set minimum and maximum limiits to pods
+    -- spec.resources.requests, its has minimum requirement to run a pod
+    -- spec.resources.requests.cpu , 1 core is 1000 m, so 100m is 10%
+    -- spec.resources.limits, 512Mi, its has maximum limit to run a pod
+
+VPA: [Vertical Pod Autoscaler]
+    -- Instead of making replicas, we increase the limit for single pod
+    -- mostly used for databases
+
+Helm:
+    -- k8s package manager at artifact hub .com 
+
+Daemonspot:
+    -- instead of replicating pods, pods are adjusted to the nuber of nodes
+    
 
 Commands:
 
@@ -389,13 +437,89 @@ Commands:
     sudo -E kubectl port-forward svc/ingress-nginx-controller -n ingress-nginx 80:80 --address=0.0.0.0
         -- we need to expose ingress-nginx-controller
 
+    sudo -E kubectl port-forward svc/ingress-nginx-controller -n ingress-nginx 80:80 --address=0.0.0.0 &
+        -- & makes it run in background
+
     kubectl apply -f ingress.yaml:
         -- create ingress 
         
     kubectl get ing -n osp-ns:
         -- get ingress for netowrk
 
-Example:
+    kubectl describe pod/mysql-deployment-685899979b-47zqb -n mysql-ns
+        -- complete info about the pod
+
+    kubectl logs pod/mysql-deployment-685899979b-47zqb -n mysql-ns
+        -- gives the logs of container
+
+    echo -n 'Admin123' | base64
+        -- password must be base 64
+
+    kubectl get secrets -n mysql-ns
+        -- gives the logs of container
+
+    kubectl exec -it pod/mysql-deployment-6cb8db889-hq7bc -n mysql-ns -- bash
+        -- enter a pod
+
+    kubectl get storageclass
+        -- info about storageclass
+
+    kubectl get pv
+    kubectl get pv -n mysql-ns
+        -- info about persistent volume
+
+    kubectl delete -f namespace.yaml:
+        -- it will delete all other resources mentioned inside it
+
+    kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+        -- metric server apply cmd
+
+    kubectl -n kube-system edit deployment metrics-server
+        -- add these two lines under spec.containers.args
+
+        - --kubelet-insecure-tls
+        - --kubelet-preferred-address-types=InternalIP,Hostname,ExternalIP
+
+    kubectl -n kube-system rollout restart deployment metrics-server
+        -- restart deployment
+
+    kubectl top pod -n kube-system
+    kubectl top node -n kube-system
+        -- top consumption resources
+
+    kubectl get hpa -ns mysql-ns
+        -- info about hpa
+
+    helm repo add jenkins https://charts.jenkins.io
+        -- add jenkins to repo list
+    
+    helm repo update
+        -- update the charts in list
+
+    helm install [RELEASE_NAME] jenkins/jenkins [flags]
+    helm install jenkins-app jenkins/jenkins -n jenkins-ns --create-namespace
+        -- install manifest files
+
+    kubectl exec --namespace jenkins-ns -it svc/jenkins-app -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+        -- get admin password
+
+    sudo -E kubectl port-forward svc/jenkins-app -n jenkins-ns 80:8080 --address=0.0.0.0
+        -- port forward 
+    
+    helm uninstall jenkins-app -n jenkins-ns
+        -- remove kenkins app
+
+    helm create python-app
+        -- package a new app manually
+
+    helm install python-app ./python-app  -n python-ns --create-namespace
+        -- install the modified app
+
+    sudo -E kubectl port-forward svc/python-app -n python-ns 80:80 --address=0.0.0.0
+        -- map the app
+
+        
+Example One:
 
 kind: Namespace
 apiVersion: v1
