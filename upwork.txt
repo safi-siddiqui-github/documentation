@@ -1,0 +1,327 @@
+Upwork Summary:
+
+Skills & Expertise:
+    Web Application
+    Web Development
+    Web Design
+    API Integration
+    JavaScript
+    PHP
+
+Search: [Payment Verified - Fixed]
+    web application development design api javascript php
+
+
+    Laravel Developer:
+
+        Price: [100-500]
+
+            App:
+                Travel Booking Platform
+
+            Role:
+                Modern Sleek Website
+                Aesthetic Appeal
+                Function Booking System
+                API Integration
+                Secure - User Friendly Booking system
+
+            Payment:
+                Manually Input Hotel Prices 
+                RateHawk Hotels API
+
+            Require:
+                Similar Project
+                Proposed Approach
+
+
+
+
+    Full Stack Developer:
+        Role:
+            Internal Payment System (FE, BE)
+            Secure REST API
+            Intuitive UI
+        
+        Payment:
+            PhonePe Payment Gateway:
+                API Callbacks
+                Transaction Status Verification
+                Refunds
+                Settlements
+
+        Artificial Intelligence:
+            AI Generated Content
+
+        Cloud Infrastructure:
+            AWS
+            Azure
+            GCP
+
+        Web Security:
+            HTTPS/TLS encryption
+            checksum/hash verification
+
+        Front End:
+            HTML
+            CSS
+            JavaScript
+            React.js
+            Angular
+            Vue.js
+        
+        Backend:
+            Node.js
+            Java
+            Python
+            Ruby
+
+
+    Express JS Developer:
+
+        Role:
+            Real Time Data Fetching (Hourly, Minutely)
+            Scalable Secure REST API
+            Performant Reliable Structure
+            Data Caching
+            Rate Limiting
+            Error Management
+            Failure Recovery
+
+        Integration:
+            External APIs
+            Data Providers
+
+
+    Laravel Developer:
+
+        Role:
+            Laravel Proficiency
+            Problem Solving Skill
+            Team Work
+            Build REST API
+            Maintain Laravel Resources
+
+        Integration:
+            Third Party Services
+            payment gateways
+            SMS
+            email services
+
+        Experience:
+            MySQL
+            PostgreSQL
+            
+
+
+    Website Speed Optimization:
+        Role:
+            Improve Website Speed
+            Enhance Website Loading
+            Enhance Website Responsiveness
+            Compatible Across Devices (browsers, mobile)
+            Optimize Front End & Back End
+            Conduct Performace Audits
+            Provide Optimization Recommendations
+            Server Side Performace Optimization
+            Resolve Performance Related Issues
+
+        Offer:
+            Full Time Position {Monthly}
+
+        Tools:
+            Google PageSpeed Insights
+            GTMetrix
+            HTML
+            CSS
+            JavaScript
+            Optimizing web assets
+            Caching Strategies
+            CDN
+
+    Personal:
+        Detail Oriented
+        Passionate
+
+    Response:
+        We would love to hear from you
+
+    Require:
+        Provide:
+            Documentation:
+                API Integration Process Details
+                API endpoints and data structure
+
+        Experience:
+            Proven
+
+        Questions:
+            Describe your recent experience with similar projects
+            Please list any certifications related to this project
+            What frameworks have you worked with?
+
+
+Price: [500-1000]
+
+
+
+
+
+
+
+
+
+Expertise:
+    Dev:
+        Troubleshoot Bug Fixes
+        Android & IOS
+        Bring Vision To Life
+        Robust Solutions
+        Financial technologies
+        Real Time Data
+        Work On-going Projects
+
+    Character:
+        Responsible
+        Communication
+        Collaboration
+        Passionate
+        Innovative
+        Problem Solving
+        Protective Approach
+
+    Ecommerce Websites:
+        Customized Fully Functional
+        Custom Addons Features
+        Dropshipping store Dsers
+        Streamlined Order Processing in Dsers App
+
+    Website / Web Apps:
+        User Friendly
+        Optimized For Performance
+        Visually Appealing
+        User Friendly Dashboard
+        
+    Blockchain:
+        Strong Background in Fintech
+        Crypto
+        Security Sectors
+        AI Generated Trend Charts
+        Live Cryptocurrency Graphs
+        Subscription Model
+
+        Tech:
+            TradingView Dashboard
+            AI Graph Visualizations
+
+
+    Deployment / Publish:
+        Publish on Play Store
+        Deploy on Digital Ocean
+
+    Design/Theme:
+        Shopify Theme Viola
+        Custome Features For User Experience
+        Font Selection
+
+End Line:
+
+    We would love to hear from you!
+
+Requirement:
+    Proven Experience
+    Previous Work
+    Relevant Projects
+    Portfolio Example
+    Project Budget/Cost
+    Timeline
+    Approach To Solution
+
+    5 yrs Experience
+
+Apps:
+    Masjid App
+    Ecommerce App
+    Finance Apps
+
+Skills and Expertise:
+
+    Node JS
+    Node.js
+
+    Firebase
+    Firebase Cloud Store
+
+    React Native
+    IOS
+    Android
+
+    Mobile App Development
+    Mobile App Dev Tools
+    Mobile App Dev Databases
+
+    Web Development
+    WordPress
+    Shopify
+    Web Design
+    WooCommerce
+
+    AngularJS
+    React
+    JavaScript
+
+    CSS
+    HTML5
+    HTML
+
+    Python
+    SaaS
+    Artificial Intelligence
+    API
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+Skills & Expertise:
+
+Web Application
+Web Development
+Web Design
+API Integration
+JavaScript
+PHP
+
+web application development design api javascript php
+
+////^^^////
+
+React Native
+Flutter
+Mobile App Development
+Search Engine Optimization
+Stripe
+RUST
+Laravel
+Python
+Node.js
+Next.js
+React
+TypeScript
+JavaScript
+CSS
+HTML
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+All:
+html css javascript tailwind bootstrap material react next vue nuxt svelte typeScript webassembly three node express nest php laravel symfony python django flask fastapi ruby rails go fiber echo java
+spring c# .net sql mysql postgresql mssql nosql mongodb firebase couchdb graph neo4j key-value store redis memcached newsql cockroachdb tidb api rest graphql apollo hasura grpc websockets trpc aws ec2
+s3 rds lambda vercel netlify digital ocean linode vultr firebase supabase heroku ci cd devops docker kubernetes terraform pulumi github gitlab jenkins nginx apache cloudflare fastly git bitbucket vs
+code webstorm eslint prettier husky lint babel webpack vite relic datadog prometheus sentry logrocket pm2 supervisor ai machine openai langchain tensorflow pytorch pinecone vector opencv 
+
+
+react next tailwind zustand framer node express nest apollo socket postgresql mysql sqlite mongodb fireabse prisma mongoose redis nextauth zod vercel aws ec2 s3 docker kubernetes sentry prometheus
+
+javascript typescript react next vue nuxt svelte angular tailwind bootstrap framer node express nest python django flask fastapi php laravel symfony ruby rails go fiber echo 
