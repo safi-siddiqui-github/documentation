@@ -1,0 +1,4 @@
+Laravel PHP
+
+docker build -t safisiddiqui1/laravelphp:latest .
+docker push safisiddiqui1/laravelphp:latest
