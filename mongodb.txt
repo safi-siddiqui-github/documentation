@@ -1,0 +1,155 @@
+Mongo DB Documentation
+
+NoSQL Database [Not Only Structured Query Language]
+Data is store a document as key-value pairs
+Data looks like JSON, but its BSON [Binary JavaScript Object Notation]
+
+Document is a group of key-value pairs to represent an object
+Collection is a group of one or more documents
+Database group of collections
+
+Login:
+    mongodb://user:pass@localhost:27017, need to login using credentials
+
+Commands:
+    db.runCommand(
+        {
+            hello: 1
+        }
+    )
+        -- check db is working
+
+    cls
+        -- clear screen
+
+    show dbs
+        -- show all databases, with some data
+
+    use db_one
+        -- create and use a database
+
+    db.createUser({
+        user: "dbUser",
+        pwd: "dbPass",
+        roles: [{ role: "readWrite", db: "db_one" }]
+    })
+        -- assign user to database
+    
+    db.getUsers()
+
+    show collections
+
+    db.createCollection("users")
+        -- create collection
+
+    db.dropDatabase("myDB")
+        -- drop database
+
+    db.users.insertOne({
+        name: "safi",
+        email: "safisiddiqui.work@gmail.com",
+        age: 25,
+        emailVerified: false,
+        emailVerifiedAt: null,
+        createdAt: new Date(),
+    })
+
+    db.users.insertMany([
+        {
+            name: "safi",
+            email: "safisiddiqui.work@gmail.com",
+            age: 25,
+            emailVerified: false,
+            emailVerifiedAt: null,
+            createdAt: new Date(),
+        },
+        {
+            name: "sami",
+            email: "samisiddiqui.private@gmail.com",
+            age: 22,
+            emailVerified: false,
+            emailVerifiedAt: null,
+            createdAt: new Date(),
+        },
+    ])
+
+    db.users.find()
+
+    db.users.find({ 
+        name: "safi"
+    })
+
+    db.users.find(
+        { age: { $lt: 23 } },
+        { _id: false, name: 1, email: 1, age:true}
+    )
+    -- {filter}, {projection} 
+
+    db.users.find().sort({age: -1})
+    -- 1 for alpba, -1 for reverse 
+
+    db.users.find().sort({age: -1}).limit(1)
+    -- get the most aged 
+
+    db.users.find({
+        age: {
+            $exists: true
+        }
+    })
+
+    db.users.find({
+        name: {
+            $ne: "safi"
+            // not equal operator
+        }
+    })
+
+    db.users.find({
+        age: {
+            $gte: 22,
+            // greater or equal equal operator
+            $lte: 25,
+            // range
+        }
+    })
+
+    db.users.find({
+        name: {
+            $in: ['safi','sami'],
+            // in operator
+            $nin: ['john','jack'],
+        }
+    })
+
+    db.users.find({
+        // and opertor
+        // $and, $or, $nor (all conditions false), $not
+        $and: [
+            {
+                age: {
+                    $gt: 20
+                }
+            },
+            {
+                name: "safi"
+            }
+        ]
+    })
+
+    db.users.updateOne(
+        { name: "safi" },
+        { $set: { age: 25 } }
+    )
+
+    db.users.updateOne(
+        { name: "safi" },
+        { $unset: { age: null } }
+    )
+
+    db.users.deleteOne({
+        name: "safi"
+    })
+
+    db.users.deleteMany({})
+
+    

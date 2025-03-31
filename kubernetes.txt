@@ -320,6 +320,10 @@ Helm:
 Daemonspot:
     -- instead of replicating pods, pods are adjusted to the nuber of nodes
     
+Stateful Set:
+    -- Mostly used with databases to persist data
+    -- maps service to pod, and uses VPA for single pod 
+    -- pods cannot be replicated after creating
 
 Commands:
 

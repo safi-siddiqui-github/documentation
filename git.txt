@@ -77,7 +77,7 @@ Basics:
     git log
         -- check commit history
 
-    git log --oneline:
+    git log --oneline
         -- all commits in lines
 
     git pull
