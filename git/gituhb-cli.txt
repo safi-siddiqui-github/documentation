@@ -1,0 +1,6 @@
+
+Authenticate with ssh
+gh auth login
+
+Set Vs code 
+gh config set editor "code --wait"

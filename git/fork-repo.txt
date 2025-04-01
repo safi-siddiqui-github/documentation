@@ -1,0 +1,10 @@
+Fork a repo 
+gh repo fork safi-siddiqui-github/documentation 
+gh repo fork safi-siddiqui-github/documentation --clone=true
+gh repo fork safi-siddiqui-github/documentation --clone=true --remote=true
+
+Check remotes
+git remote -v
+
+Create a dev branch
+git checkout -b dev-branch

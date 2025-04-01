@@ -1,0 +1,22 @@
+Generating a new SSH key
+ssh-keygen -t ed25519 -C "safisiddiqui.dev@gmail.com"
+
+Start the ssh-agent in the background.
+Before adding a new SSH key to the ssh-agent to manage your keys, you should have checked for existing SSH keys and generated a new SSH key.
+eval "$(ssh-agent -s)"
+
+Add your SSH private key to the ssh-agent.
+ssh-add ~/.ssh/id_ed25519
+
+Add the SSH public key to your account on GitHub. For more information, see Adding a new SSH key to your GitHub account.
+Adding a new SSH key to your GitHub account
+
+Copy the SSH public key to your clipboard.
+cat ~/.ssh/id_ed25519.pub
+
+Got to safi-siddiqui-dev/setting/ssh & GPC keys >
+https://github.com/settings/ssh/new
+
+key
+title: dev-two
+
