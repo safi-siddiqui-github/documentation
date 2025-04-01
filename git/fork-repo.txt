@@ -8,3 +8,21 @@ git remote -v
 
 Create a dev branch
 git checkout -b dev-branch
+
+add, commit
+git add .
+git commit -m 'git-folder-added-update'
+git push origin dev-branch
+
+Create a pull request to main account
+gh pr create --repo safi-siddiqui-github/documentation --head safi-siddiqui-dev:dev-branch --base main --title "Merging - F/M" --body "Merging safi-dev:dev-branch update into safi-github:main branch"
+
+Syncing Updates from Main Repo to Dev Repo
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
+
+Syncing in Main repo:
+gh pr list
+gh pr merge saf-siddiqui-dev:dev-branch  --merge
