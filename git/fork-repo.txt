@@ -26,3 +26,5 @@ git push origin main
 Syncing in Main repo:
 gh pr list
 gh pr merge saf-siddiqui-dev:dev-branch  --merge
+
+Syncing to other branches on dev
