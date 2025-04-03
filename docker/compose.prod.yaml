@@ -1,0 +1,42 @@
+name: mern-prod
+
+services:
+
+  nginx:
+    build:
+      context: /home/safi/main/nginx
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    networks:
+      - network
+    depends_on:
+      - tailwindcss
+      - nextjs
+      - expressjs
+
+  tailwindcss:
+    build:
+      context: /home/safi/main/tailwindcss-app
+      dockerfile: docker/Dockerfile.prod
+    networks:
+      - network
+
+  nextjs:
+    build:
+      context: /home/safi/main/next-app
+      dockerfile: docker/Dockerfile.prod
+    networks:
+      - network
+    depends_on:
+      - expressjs
+
+  expressjs:
+    build:
+      context: /home/safi/main/express-app
+      dockerfile: docker/Dockerfile.prod
+    networks:
+      - network
+
+networks:
+  network:

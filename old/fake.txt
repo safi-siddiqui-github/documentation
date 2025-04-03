@@ -1,0 +1,148 @@
+Explain these with best practises for stable, secure and fast 
+
+docker run -it ubuntu | docker run -i -t ubuntu
+docker run -d -p 8080:80 docker/welcome-to-docker
+docker compose watch
+
+DOcker Build and publish steps:
+docker build -t DOCKER_USERNAME/getting-started-todo-app .
+docker image ls
+docker push DOCKER_USERNAME/getting-started-todo-app
+
+Containers:
+docker ps: Show active Containers
+docker ps -a: Show all Containers
+docker stop be774b4f2800: stop conteiner
+docker stop be7: stop with first 3 letters
+
+Images:
+docker search docker/welcome-to-docker
+docker pull docker/welcome-to-docker
+docker image ls
+docker image history docker/welcome-to-docker
+
+Registery:
+docker build -t YOUR_DOCKER_USERNAME/docker-quickstart .
+docker images
+docker run -d -p 8080:8080 YOUR_DOCKER_USERNAME/docker-quickstart 
+docker tag YOUR_DOCKER_USERNAME/docker-quickstart YOUR_DOCKER_USERNAME/docker-quickstart:1.0 
+docker push YOUR_DOCKER_USERNAME/docker-quickstart:1.0
+
+compose
+docker compose up -d --build
+docker compose down --volumes
+
+Containers:
+docker run --interactive --tty --rm ubuntu:22.04 : remove after stopping
+docker run --interactive --tty --name my-ubuntu-container ubuntu:22.04 : name the containerstopping
+docker ps -a | grep my-ubuntu-container
+docker start my-ubuntu-container : run the existing container
+docker attach my-ubuntu-container : attach to shell
+
+Buld images:
+build the image with already installed packages:
+    docker build --tag my-ubuntu-image -<<EOF
+    FROM ubuntu:22.04
+    RUN apt update && apt install iputils-ping --yes 
+    EOF
+
+docker run -it --rm my-ubuntu-image : run the container 
+ping google.com -c 1 : try installed package ping
+
+Port Binding
+docker run -d -p 9000:80 --name first-nginx nginx:latest
+docker logs first-nginx
+
+Build: Images
+docker build .
+The final . in the command provides the path or URL to the build context. At this location, the builder will find the Dockerfile and other referenced files.
+
+Tagging:
+[HOST[:PORT_NUMBER]/]PATH[:TAG] : [docker.io[:PORT_NUMBER]/]library/package[:latest]
+PATH = [NAMESPACE/]REPOSITORY
+nginx, equivalent to docker.io/library/nginx:latest: this pulls an image from the docker.io registry, the library namespace, the nginx image repository, and the latest tag.
+
+docker build -t my-username/my-image . : tag image during build
+docker push my-username/my-image : push to public hub
+docker image history my-username/my-image : history 
+
+Volume:
+No data is stored in container after exiting:
+    docker run -it --rm ubuntu:22.04
+    mkdir data
+    echo "welcome to container" > /data/welcome.txt
+    cat /data/welcome.txt
+
+docker volume ls : list
+docker volume prune : remove unused
+docker volume create my-volume
+
+mount volume into file system of container
+    docker run -it --rm --mount source=first-volume,destination=/data/ ubuntu:22.04
+    (repeat the data directory and exit, hten run the container again)
+
+mount volume and bind it to current directory:
+    docker run -it --rm --mount type=bind,source="${PWD}"/data/,destination=/data/ ubuntu:22.04
+    (data is binded to source, and persisted in it, wont delete after exiting)
+
+
+Dockerfile:
+    docker build -t exp-demo-first:1.0 . : build image with this name and tag
+    docker run -d -p 3000:3000 exp-demo-first:1.0
+
+Network:
+    docker network ls
+    docker network create mongodb-network
+
+    docker run -d \
+        --network mongodb-network \
+        --name mongo-db-one \
+        -p 27017:27017 \
+        -e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
+        -e MONGO_INITDB_ROOT_PASSWORD=secret \
+        mongo
+
+    $ docker run -d \
+        --network mongodb-network \
+        --name mongo-app-one \
+        -p 8081:8081 \
+        -e ME_CONFIG_MONGODB_ADMINUSERNAME=mongoadmin \
+        -e ME_CONFIG_MONGODB_ADMINPASSWORD=secret \
+        -e ME_CONFIG_MONGODB_SERVER=mongo-db-one \
+        mongo-express
+
+
+Environemnt:
+     docker run --env-file .env postgres env: catch the env file
+
+Network:
+    Containers with same network, will work in isolation network bridge, else connect to default bridge that is unsafe 
+     docker run -d -e POSTGRES_PASSWORD=secret -p 5434:5432 --network mynetwork postgres : network
+
+Docker compose:
+    docker compose up : using compose.yaml file run the containers
+    docker compose up -p project-name : using compose.yaml file run the containers
+
+Volume:
+    docker volume create log-data
+    docker run -d -p 80:80 -v log-data:/logs docker/welcome-to-docker
+
+    docker run --name=db -e POSTGRES_PASSWORD=secret -d -v postgres_data:/var/lib/postgresql/data postgres
+    docker exec -ti db psql -U postgres
+        CREATE TABLE tasks (
+            id SERIAL PRIMARY KEY,
+            description VARCHAR(100)
+        );
+        INSERT INTO tasks (description) VALUES ('Finish work'), ('Have fun');
+        SELECT * FROM tasks;
+        \q
+
+    docker stop db
+    docker rm db
+    docker run --name=new-db -d -v postgres_data:/var/lib/postgresql/data postgres 
+    docker exec -ti new-db psql -U postgres -c "SELECT * FROM tasks"
+
+Binding:
+    docker run -d -p 8080:80 --name first-http-site httpd:2.4-alpine
+    curl localhost:8080
+    docker run -d --name first-http -p 8080:80 --mount type=bind,source=./,target=/usr/local/apache2/htdocs/ httpd:2.4-alpine
