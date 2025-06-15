@@ -9,8 +9,6 @@ services:
       context: /home/safi/main/nginx
       dockerfile: Dockerfile.dev
       
-    C
-
     # volumes:
     #   - /home/safi/main/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
 
